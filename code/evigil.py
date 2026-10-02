@@ -35,28 +35,30 @@ def evalue(A, B, tau=TAU):
     z = A / np.sqrt(a)
     return float(np.exp(np.log(2.0 / (tau * np.sqrt(a))) + norm.logcdf(z) + z * z / 2.0))
 
-def path(y, s, t, reg, start, tau=TAU, pool_regimes=False, min_n=3):
-    """E^+ (acceleration) and E^- (deceleration) for waves start..end of one epoch."""
+def path(y, s, t, reg, start, tau=TAU, pool_regimes=False, min_n=3, gamma0=0.0):
+    """E^+ (acceleration) and E^- (deceleration) for waves start..end of one epoch.
+    gamma0 >= 0 is a tolerance: the nulls are gamma <= gamma0 (E+) and gamma >= -gamma0 (E-).
+    Rows are (wave, E+, E-, A, B)."""
     out = []
     for n in range(start + min_n, len(y) + 1):
         sl = slice(start, n)
         r = np.zeros(n - start, int) if pool_regimes else reg[sl]
         A, B = score(y[sl], s[sl], t[sl], r)
-        out.append((n - 1, evalue(A, B, tau) if B > 0 else 1.0,
-                    evalue(-A, B, tau) if B > 0 else 1.0))
+        out.append((n - 1, evalue(A - gamma0 * B, B, tau) if B > 0 else 1.0,
+                    evalue(-A - gamma0 * B, B, tau) if B > 0 else 1.0, A, B))
     return out
 
-def surveil(y, s, t, reg, tau=TAU, thresh=THRESH, pool_regimes=False, stop=None):
+def surveil(y, s, t, reg, tau=TAU, thresh=THRESH, pool_regimes=False, stop=None, gamma0=0.0):
     """Sequence of epochs; after each declaration the monitor restarts at the next wave."""
     stop = len(y) if stop is None else stop
     start, decl, traj = 0, [], []
     while start + 3 <= stop:
-        p = path(y[:stop], s[:stop], t[:stop], reg[:stop], start, tau, pool_regimes)
+        p = path(y[:stop], s[:stop], t[:stop], reg[:stop], start, tau, pool_regimes, gamma0=gamma0)
         traj.append((start, p))
         hit = next((r for r in p if max(r[1], r[2]) >= thresh), None)
         if hit is None:
             break
         decl.append(dict(start=start, wave=hit[0], dir="accel" if hit[1] >= thresh else "decel",
-                         E=max(hit[1], hit[2])))
+                         E=max(hit[1], hit[2]), A=hit[3], B=hit[4]))
         start = hit[0] + 1
     return decl, traj

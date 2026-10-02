@@ -34,12 +34,11 @@ JOS rules (from author guidelines): no submission fee/APC; double-anonymised, se
 ## Methodological issue found while retargeting, and its resolution
 The earlier manuscripts (jetm, tfsc, frl) treat standardised increments as iid N(0,1) under H0. With independent sampling errors the increments are MA(1) (lag-1 autocorrelation of the BTOS increments: -0.487; code/check_null_validity.py), so the stated guarantee does not hold as written (the monitor is extremely conservative under a flat path, false-declaration rate about 0.0003). Those versions should not be resubmitted as they are.
 
-## manuscripts/jos (current version, for the Journal of Official Statistics)
-New method: invariant mixture e-process for curvature (change in growth rate) with unknown level and slope and regime-specific levels (exact validity, Proposition 1). LaTeX class sagej (Sage template files included). Results: deceleration declared 10 Mar 2024, acceleration 6 Apr 2025, summer-2025 slowdown sub-threshold (peak E 19.0; declared for tau >= 0.02 or alpha = 0.10), pooled analysis declares spuriously at the Nov 2025 wording change.
-Rebuild everything from the repository root:
-  python code/jos_simulation.py   # results/simulation.json (about 1 min)
+## manuscripts/jos (current version, Journal of Official Statistics)
+Revised after an internal review round (methodology, domain, journal-fit, devil's advocate). Method: mixture e-process for curvature with unknown level and slope and regime-specific levels (Proposition 1, tolerance gamma0 option, Corollary 2 on the restart procedure). Honest scope: valid only for correct published SEs, additive redesign shifts and correctly dated regimes; simulations show where it fails (code/jos_simulation.py). Results: deceleration 10 Mar 2024 (triggered by one 6.2-SE drop; sensitive to treating that wave as a break), acceleration 6 Apr 2025, summer-2025 slowdown inconclusive (peak E 19.0, anytime-valid p 0.105; SE dispersion kappa about 1.55).
+Rebuild from the repository root:
+  python code/jos_simulation.py   # results/simulation.json (about 4 min)
   python code/jos_analysis.py     # results/analysis.json, manuscripts/jos/fig_*.pdf
   python code/make_tables.py      # manuscripts/jos/tab_*.tex
   cd manuscripts/jos && pdflatex main && bibtex main && pdflatex main && pdflatex main
-Files for the portal: main.pdf (anonymised), title_page.pdf, cover_letter.pdf, plus data and code.
-Open items: BTOS data after Dec 2025 not yet added (census.gov unreachable from the sandbox); reviewer reports of the earlier rejection not in the repository; check Sage's generative-AI policy before submitting.
+Data end Dec 2025 by choice. Open items: page ranges missing for two Annals references (not verifiable via Crossref); reviewer reports of the earlier rejection not in the repository; check the journal's generative-AI policy before submitting; references use the chicago.bst style.
