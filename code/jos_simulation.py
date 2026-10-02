@@ -120,7 +120,7 @@ def redesign_sim(k, kind, label_shift=0, reps=5000):
 for k in (2, 5, 10, 20):
     res[f"redesign_additive_k{k}"] = redesign_sim(k, "additive")
     res[f"redesign_multiplicative_k{k}"] = redesign_sim(k, "multiplicative")
-    res[f"redesign_labelone_late_k{k}"] = redesign_sim(k, "additive", label_shift=1)
+    res[f"redesign_labelone_early_k{k}"] = redesign_sim(k, "additive", label_shift=1)  # label placed one wave early
 
 os.makedirs("results", exist_ok=True)
 json.dump(res, open("results/simulation.json", "w"), indent=1)

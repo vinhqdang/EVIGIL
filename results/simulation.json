@@ -239,7 +239,7 @@
   "regime_aware": 0.0138,
   "pooled": 1.0
  },
- "redesign_labelone_late_k2": {
+ "redesign_labelone_early_k2": {
   "regime_aware": 1.0,
   "pooled": 1.0
  },
@@ -251,7 +251,7 @@
   "regime_aware": 0.0276,
   "pooled": 1.0
  },
- "redesign_labelone_late_k5": {
+ "redesign_labelone_early_k5": {
   "regime_aware": 1.0,
   "pooled": 1.0
  },
@@ -263,7 +263,7 @@
   "regime_aware": 0.9994,
   "pooled": 1.0
  },
- "redesign_labelone_late_k10": {
+ "redesign_labelone_early_k10": {
   "regime_aware": 1.0,
   "pooled": 1.0
  },
@@ -275,7 +275,7 @@
   "regime_aware": 1.0,
   "pooled": 1.0
  },
- "redesign_labelone_late_k20": {
+ "redesign_labelone_early_k20": {
   "regime_aware": 1.0,
   "pooled": 1.0
  }
