@@ -50,7 +50,7 @@ def projections(s, t, reg, regime_slopes=False, guard=0, pool=False, nmin=3):
     return dict(C=C, B=B, P=P, nu=nu)
 
 # ---------- scale-invariant (unknown kappa) e-process, numerical mixture
-_XR = np.linspace(-1.0, 1.0, 120)
+_XR = np.linspace(-1.0, 1.0, 80)
 
 def _logJ(a, nu):
     """log of int_0^inf r^(nu-1) exp(-r^2/2 + a r) dr, vectorized over a (shape (...,)), nu scalar array broadcastable."""
@@ -61,7 +61,7 @@ def _logJ(a, nu):
     f = (nu[..., None] - 1.0) * np.log(r) - r * r / 2.0 + a[..., None] * r
     return logsumexp(f, axis=-1) + np.log((hi - lo) / 2.0 * (_XR[1] - _XR[0]))
 
-_PQ = np.array([norm.ppf(0.5 + 0.5 * (i + 0.5) / 24) for i in range(24)])   # half-normal quantile nodes
+_PQ = np.linspace(0.0, 6.0, 60)      # prior nodes in units of tau (0 to 6 tau)
 _K = np.arange(-7.0, 7.01, 0.5)
 
 def log_e_unknown(A, B, rss0, nu, tau=TAU):
@@ -76,7 +76,7 @@ def log_e_unknown(A, B, rss0, nu, tau=TAU):
         a_, b_, r_, n_ = A[i], B[i], rss0[i], nu[i]
         dhat = a_ * np.sqrt(n_) / (b_ * np.sqrt(r_))
         post = np.maximum(dhat[:, None] + _K[None, :] / np.sqrt(b_)[:, None], 0.0)
-        prior = tau * _PQ[None, :] * np.ones_like(post[:, :1])
+        prior = tau * _PQ[None, :] * np.ones((len(i), 1))
         d = np.sort(np.concatenate([post, prior, np.zeros((len(i), 1))], axis=1), axis=1)
         s_ = a_ / np.sqrt(r_)
         lj = _logJ(d * s_[:, None], n_[:, None]) - _logJ(np.zeros(len(i)), n_)[:, None]
@@ -87,6 +87,11 @@ def log_e_unknown(A, B, rss0, nu, tau=TAU):
         trap = 0.5 * (np.exp(f[:, 1:] - f.max(1, keepdims=True)) + np.exp(f[:, :-1] - f.max(1, keepdims=True))) * w
         out[i] = f.max(1) + np.log(np.maximum(trap.sum(1), 1e-300))
     return out
+
+TAUS = (0.0025, 0.005, 0.01, 0.02, 0.04)
+def log_e_unknown_mix(A, B, rss0, nu, taus=TAUS):
+    L = np.stack([log_e_unknown(A, B, rss0, nu, t) for t in taus])
+    return logsumexp(L, axis=0) - np.log(len(taus))
 
 def log_e_known(A, B, tau=TAU, gamma0=0.0):
     a = B + tau**-2; Ap = A - gamma0 * B; z = Ap / np.sqrt(a)
@@ -101,7 +106,7 @@ def surveil_ext(y, s, t, reg, mode="known", tau=TAU, thresh=THRESH, regime_slope
                 pool=False, gamma0=0.0, min_nu=2):
     """Epoch sequence with restarts for the extended monitors. mode: known | unknown | mix.
     Returns (declarations, trajectories); each trajectory is a list of (wave, E+, E-)."""
-    N = len(y); start = 0; decl, traj = [], []
+    N = len(y); start = 0; decl, traj = [], []; info = {}
     regv = np.zeros(N, int) if pool else (apply_guard(reg, guard) if guard else np.asarray(reg))
     while start + 3 <= N:
         pr = projections(s[start:], t[start:], regv[start:], regime_slopes=regime_slopes, pool=False)
@@ -117,11 +122,14 @@ def surveil_ext(y, s, t, reg, mode="known", tau=TAU, thresh=THRESH, regime_slope
                 lp, lm = log_e_mix(A, B, gamma0=gamma0), log_e_mix(-A, B, gamma0=gamma0)
             else:
                 rss = yy @ pr["P"][n - 1][:n, :n] @ yy; nu = pr["nu"][n - 1]
-                lp = log_e_unknown([A], [B], [rss], [nu], tau)[0]; lm = log_e_unknown([-A], [B], [rss], [nu], tau)[0]
+                f = log_e_unknown_mix if mode == "unknown_mix" else (lambda a, b, r, v: log_e_unknown(a, b, r, v, tau))
+                lp = f([A], [B], [rss], [nu])[0]; lm = f([-A], [B], [rss], [nu])[0]
+                info[start + n - 1] = (A, B, rss, nu)
             p.append((start + n - 1, float(np.exp(min(lp, 700))), float(np.exp(min(lm, 700)))))
         traj.append((start, p))
         hit = next((r for r in p if max(r[1], r[2]) >= thresh), None)
         if hit is None: break
-        decl.append(dict(start=start, wave=hit[0], dir="accel" if hit[1] >= thresh else "decel", E=max(hit[1], hit[2])))
-        start = hit[0] + 1
+        rec = dict(start=start, wave=hit[0], dir="accel" if hit[1] >= thresh else "decel", E=max(hit[1], hit[2]))
+        if hit[0] in info: rec.update(A=info[hit[0]][0], B=info[hit[0]][1], rss=info[hit[0]][2], nu=info[hit[0]][3])
+        decl.append(rec); start = hit[0] + 1
     return decl, traj

@@ -101,27 +101,6 @@ for delta in (0.01, 0.02, 0.03, 0.05):
                          median_delay=float(np.median(f[after] - k0)) if after.any() else None)
     res[f"power_delta{delta}"] = out
 
-# S3: redesign: epoch with 20 legacy waves then k revised waves; linear path, slope 0.25
-def redesign_sim(k, kind, label_shift=0, reps=5000):
-    n0 = 20; n = n0 + k
-    s = np.concatenate([s_leg[:n0], np.full(k, 0.2)])
-    t = np.concatenate([t_leg[:n0], t_leg[n0 - 1] + 2 + np.arange(k)])   # a gap of 3 periods, then biweekly
-    path = 5 + 0.25 * (t - t[0])
-    reg_true = (np.arange(n) >= n0).astype(int)
-    shift = 7.3 if kind == "additive" else None
-    th = path + 7.3 * reg_true if kind == "additive" else np.where(reg_true == 1, path * 1.73, path)
-    lab = (np.arange(n) >= n0 - label_shift).astype(int) if label_shift else reg_true
-    y = th + rng.standard_normal((reps, n)) * s
-    out = {}
-    for name, (rg, pool) in dict(regime_aware=(lab, False), pooled=(lab, True)).items():
-        C_, B_ = build(s, t, rg, pool=pool)
-        out[name] = float(alarms(y, C_, B_)["eproc"].any(1).mean())
-    return out
-for k in (2, 5, 10, 20):
-    res[f"redesign_additive_k{k}"] = redesign_sim(k, "additive")
-    res[f"redesign_multiplicative_k{k}"] = redesign_sim(k, "multiplicative")
-    res[f"redesign_labelone_early_k{k}"] = redesign_sim(k, "additive", label_shift=1)  # label placed one wave early
-
 os.makedirs("results", exist_ok=True)
 json.dump(res, open("results/simulation.json", "w"), indent=1)
 for k, v in res.items(): print(k, v if not isinstance(v, dict) else {a: (round(b, 4) if isinstance(b, float) else b) for a, b in v.items()})

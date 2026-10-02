@@ -124,34 +124,8 @@ json.dump(R, open("results/analysis.json", "w"), indent=1, default=float)
 print(json.dumps({k: v for k, v in R.items() if k != "strata"}, indent=1, default=float))
 
 # ---------------------------- figures (grey-scale safe) ----------------------------
-plt.rcParams.update({"font.size": 9, "font.family": "serif"})
+plt.rcParams.update({"font.size": 9, "font.family": "serif", "pdf.fonttype": 42})
 BREAK = pd.Timestamp("2025-11-17")
-fig, ax = plt.subplots(figsize=(7.2, 3.5))
-l = d[d.reg == 0]; r_ = d[d.reg == 1]
-ax.errorbar(l.collection_end, l.ai_use_pct, yerr=1.96 * l.ai_use_se, fmt="-o", ms=2.5, lw=1, elinewidth=.5, color="k", label="Legacy wording")
-ax.errorbar(r_.collection_end, r_.ai_use_pct, yerr=1.96 * r_.ai_use_se, fmt="s", ms=4, mfc="white", color="k", elinewidth=.5, label="Revised wording")
-for x in dec:
-    ax.axvline(dt[x["wave"]], color="0.35", ls="--", lw=1)
-    ax.text(dt[x["wave"]], 19.3, " " + ("Deceleration" if x["dir"] == "decel" else "Acceleration") + "\n " + dt[x["wave"]].strftime("%-d %b %Y"),
-            fontsize=7, va="top", ha="left" if dt[x["wave"]].year < 2025 else "right")
-ax.axvline(BREAK, color="k", ls=":", lw=1.3); ax.text(BREAK, 12.5, "Wording\nchange ", fontsize=7, ha="right")
-ax.set_ylim(2, 20); ax.set_ylabel("Share of businesses using AI (%)"); ax.legend(fontsize=7.5, loc="center left")
-ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %Y"))
-fig.tight_layout(); fig.savefig(f"{OUT}/fig_series.pdf"); plt.close(fig)
-
-fig, axs = plt.subplots(1, 2, figsize=(7.2, 3.4), sharey=True)
-for ax, ttl, trj, dd in ((axs[0], "(a) Regime-aware monitor", tr, dec), (axs[1], "(b) Pooled (redesign ignored)", trp, decp)):
-    for j, (st, p) in enumerate(trj):
-        if j < len(trj) - 1: p = [r for r in p if r[0] <= dd[j]["wave"]]
-        x = [dt[r[0]] for r in p]
-        ax.semilogy(x, np.maximum([r[1] for r in p], 1e-3), color="k", lw=1.2, label="Acceleration" if j == 0 else None)
-        ax.semilogy(x, np.maximum([r[2] for r in p], 1e-3), color="0.45", lw=1.2, ls="--", label="Deceleration" if j == 0 else None)
-    ax.axhline(40, color="k", ls=":", lw=.9); ax.axvline(BREAK, color="k", ls="-.", lw=.8)
-    ax.set_title(ttl, fontsize=9); ax.set_ylim(1e-3, 1e8)
-    ax.xaxis.set_major_locator(mdates.MonthLocator(bymonth=(1, 7))); ax.xaxis.set_major_formatter(mdates.DateFormatter("%b\n%Y"))
-axs[0].set_ylabel("E-value (log scale)"); axs[0].legend(fontsize=7.5, loc="upper left")
-fig.tight_layout(); fig.savefig(f"{OUT}/fig_evalues.pdf"); plt.close(fig)
-
 fig, ax = plt.subplots(figsize=(7.0, 3.0)); x = np.arange(7)
 ax.bar(x, [r["jump_z"] for r in rows], .55, color="0.55", edgecolor="k", label="Jump at wording change")
 ax.plot(x, [r["p95"] for r in rows], "kD", ms=5, mfc="white", label="95th percentile, within regime")

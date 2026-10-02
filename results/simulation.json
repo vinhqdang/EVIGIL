@@ -230,53 +230,5 @@
    "by_end": 0.97245,
    "median_delay": 10.0
   }
- },
- "redesign_additive_k2": {
-  "regime_aware": 0.0118,
-  "pooled": 1.0
- },
- "redesign_multiplicative_k2": {
-  "regime_aware": 0.0138,
-  "pooled": 1.0
- },
- "redesign_labelone_early_k2": {
-  "regime_aware": 1.0,
-  "pooled": 1.0
- },
- "redesign_additive_k5": {
-  "regime_aware": 0.0152,
-  "pooled": 1.0
- },
- "redesign_multiplicative_k5": {
-  "regime_aware": 0.0276,
-  "pooled": 1.0
- },
- "redesign_labelone_early_k5": {
-  "regime_aware": 1.0,
-  "pooled": 1.0
- },
- "redesign_additive_k10": {
-  "regime_aware": 0.0162,
-  "pooled": 1.0
- },
- "redesign_multiplicative_k10": {
-  "regime_aware": 0.9994,
-  "pooled": 1.0
- },
- "redesign_labelone_early_k10": {
-  "regime_aware": 1.0,
-  "pooled": 1.0
- },
- "redesign_additive_k20": {
-  "regime_aware": 0.0194,
-  "pooled": 1.0
- },
- "redesign_multiplicative_k20": {
-  "regime_aware": 1.0,
-  "pooled": 1.0
- },
- "redesign_labelone_early_k20": {
-  "regime_aware": 1.0,
-  "pooled": 1.0
  }
 }
