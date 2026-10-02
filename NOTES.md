@@ -27,3 +27,12 @@ Takeoff declared 20 Apr 2025, E=42.2 (41 increments); early peak 17.1 (28 Jan 20
 1. Add TF&SC reviewer reports to submission_tracking/.
 2. Pick new venue (technical journals first), check its guide for authors, then retarget framing (derivations up front, drop diffusion-theory/tech-waves material if venue is statistical).
 3. Extend AI panel past Dec 2025 with fresh BTOS download.
+
+## Status (2 Oct 2026): next venue = Journal of Official Statistics (JOS)
+JOS rules (from author guidelines): no submission fee/APC; double-anonymised, separate title page; LaTeX accepted (Word preferred); no footnotes/endnotes; no italics/bold for emphasis; "Subsection X.x"; Chicago author-date references with DOI, journal names in italics, references after appendices; figures must read in black and white, captions without colour words; short title + abstract + keywords; covering letter should justify fit; Declaration of Conflicting Interests before references; data availability statement. No length cap. Submit at mc.manuscriptcentral.com/joffstats. Check Sage's generative-AI policy before submitting.
+
+## Methodological issue found while retargeting (must resolve before submission)
+Eq. (null) assumes standardised increments z_t are iid N(0,1) under H0. With independent sampling errors the increments are MA(1): lag-1 autocorrelation of z in the BTOS legacy series is -0.487 (theory: -0.5). Consequences (code/check_null_validity.py):
+- Under a flat latent path with independent noise, the monitor's false-declaration rate is about 0.0003 (not 0.05): the sum of increments telescopes, so the test is valid but extremely conservative and the e-value is not a calibrated likelihood ratio.
+- A level-based e-process (flat-prior nuisance intercept, group-invariance argument) is exactly valid but, against a flat null, declares in Nov 2023 with E of order 1e4, because the series is plainly not flat. The Epoch-1 null needs a substantively meaningful baseline slope (pre-registered), or the paper must be reframed around the instrument-change and graded-evidence results.
+This changes the headline numbers (20 Apr 2025, E=42.2) and needs a decision on the redesign.
