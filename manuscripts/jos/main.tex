@@ -1,0 +1,280 @@
+\documentclass[Afour,sageh,times]{sagej}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[colorlinks,citecolor=black,linkcolor=black,urlcolor=black]{hyperref}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\setcounter{secnumdepth}{3}
+\AtBeginDocument{\onecolumn}
+
+\begin{document}
+
+\runninghead{Anytime-valid monitoring of survey series}
+
+\title{Anytime-valid monitoring of repeated survey estimates under questionnaire redesign: An application to the Business Trends and Outlook Survey}
+
+\author{Author information removed for anonymous peer review}
+
+\begin{abstract}
+Statistical agencies now release survey estimates every few weeks, and users inspect them as they arrive, asking whether growth has changed course. Repeated significance testing on such a stream does not control error rates, and questionnaire redesigns create discontinuities that are easily mistaken for real change. We propose a monitor for the shape of a published series that addresses both problems. The null hypothesis is that the latent path is locally linear with unknown level and slope, with a separate unknown level for each questionnaire regime. A group-invariance argument yields a mixture e-process for curvature that is exactly valid for every value of these nuisance parameters, under continuous inspection and optional stopping, using only the published design-based standard errors. Redesigns are absorbed by the regime levels without any bridging model. In simulations based on the actual sampling errors, the monitor holds its level, matches a Bonferroni rule that needs the horizon in advance, and is immune to level shifts that make a pooled analysis reject with certainty. Applied to the 56 biweekly waves of the U.S. Census Bureau's Business Trends and Outlook Survey on artificial intelligence use, it declares a deceleration on 10 March 2024 and an acceleration on 6 April 2025, and it does not react to the November 2025 wording change, which moved the estimate by 25.7 standard errors.
+\end{abstract}
+
+\keywords{sequential monitoring, e-values, group invariance, survey redesign, repeated surveys, official statistics}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+National statistical offices increasingly publish short-period estimates from rolling surveys. The U.S. Census Bureau's Business Trends and Outlook Survey (BTOS) releases national, sector, state and size-class estimates every two weeks \citep{censusmethod2025}. Users, from journalists to central bank staff, read each release against its predecessors and ask whether the path of an indicator has changed, for example whether the adoption of a new technology has accelerated or stalled \citep{bonney2024,fed2026,mcelheran2024}. Two features of this practice are not handled by standard inferential tools.
+
+The first is continuous inspection. A user who applies a conventional test at every release, and who may stop at any time, faces an error rate that is not the nominal one. This is the repeated significance testing problem of \citet{armitage1969}, and it is acute here because releases are frequent and the standard errors are small. The second is redesign. Agencies revise questions, weighting and frames, and the published series then contains a discontinuity that is not a feature of the population. The statistical literature on repeated surveys addresses this by modelling the series jointly with an intervention or a bridging parallel run \citep{scott1974,vandenbrakel2010,ohara2019}. Such methods are retrospective, depend on a parallel sample or a time series model, and are not designed for continuous monitoring with finite-sample error control.
+
+We combine two ideas that have developed separately. Sequential analysis since \citet{wald1945} and \citet{page1954}, and its modern form based on e-values and test martingales \citep{howard2021,vovk2021,ramdas2023,grunwald2024}, including the always-valid monitoring of online experiments \citep{johari2022}, gives tests whose error control is uniform over time. Invariance \citep{perezortiz2024} gives e-processes that are valid for every value of a nuisance parameter that is acted on by a group. We take the nuisance parameters to be the level of the latent series in each questionnaire regime and its local slope. The monitored quantity is then the curvature of the path: a sustained change in the growth rate is evidence of takeoff or deceleration, and a shift in level produced by an instrument change is, by construction, invisible.
+
+The contributions are as follows. First, we state a null hypothesis for monitoring a published survey series, local linearity with unknown level and slope and regime-specific levels, and derive a closed-form mixture e-process whose validity holds for all nuisance values (Section 3). Second, we show by simulation, with the sampling errors of the BTOS, that the monitor holds its level, is competitive in detection delay with a Bonferroni rule that requires a fixed horizon and with an alpha-spending rule that does not, and is unaffected by a redesign-sized shift that makes a pooled analysis reject with certainty (Section 4). Third, we apply the monitor to the 56 BTOS waves on business use of artificial intelligence, including the November 2025 wording change, and we report where the conclusions depend on the single tuning constant, the prior scale (Section 5). Section 6 discusses limitations, in particular the sensitivity of any such procedure to understated standard errors.
+
+\section{Setting}
+\label{sec:setting}
+
+Let $j = 1, 2, \dots$ index published waves, with release times $t_j$ measured in two-week units and published estimates $y_j$ with design-based standard errors $s_j$. Each wave carries a questionnaire regime label $r_j \in \{1, \dots, K\}$ that is fixed by the agency before the estimate is released. We write $w_j = 1/s_j^2$.
+
+The model for the published estimate is
+\begin{equation}
+y_j = \theta(t_j) + \mu_{r_j} + \varepsilon_j, \qquad \varepsilon_j \sim \mathcal{N}(0, s_j^2) \text{ independently},
+\label{eq:model}
+\end{equation}
+where $\theta$ is a smooth latent path and $\mu_r$ is the offset of regime $r$ relative to the first regime. A redesign changes $\mu_r$ and leaves $\theta$ unchanged. The normal approximation to the sampling error is reasonable at the sample sizes involved: each BTOS estimate rests on thousands of responses, and consecutive waves are drawn from different rotation panels \citep{censusmethod2025}. The standard errors $s_j$ are treated as known, as is customary in the analysis of published time series; Subsection 6.2 examines what happens when they are understated.
+
+The question asked of the series is about shape. Over any stretch of consecutive waves, is the growth rate constant, or has it changed? This is the question behind statements such as ``adoption has taken off'' or ``growth has stalled''. We define the null hypothesis for a monitoring epoch beginning at wave $j_0$ as
+\begin{equation}
+H_0:\quad \theta(t) = a + b\,t \quad \text{for some } a, b \in \mathbb{R},
+\label{eq:null}
+\end{equation}
+with unknown $a$, $b$ and unknown regime offsets $\mu_r$. We consider the alternative that $\theta$ has constant curvature, $\theta(t) = a + b\,t + \gamma t^2/2$, with $\gamma > 0$ for acceleration and $\gamma < 0$ for deceleration. A sustained change of the growth rate in one direction has a nonzero projection on the quadratic term and is therefore detected as a departure from $H_0$.
+
+\section{Method}
+\label{sec:method}
+
+\subsection{An invariant mixture e-process}
+\label{sec:eprocess}
+
+Fix an epoch and consider its first $n$ waves. Let $D_n$ be the $n \times p$ matrix whose columns are the indicators of the regimes present and the time variable $t_j$, let $W_n = \mathrm{diag}(w_1, \dots, w_n)$, and let $q_j = t_j^2/2$. Define the weighted residual projector $M_n = I - D_n (D_n^\top W_n D_n)^{-1} D_n^\top W_n$ and
+\begin{equation}
+A_n = q^\top W_n M_n\, y, \qquad B_n = q^\top W_n M_n\, q,
+\label{eq:AB}
+\end{equation}
+with $q$ and $y$ truncated to the first $n$ waves. Here $B_n$ is the information about $\gamma$ in the data after the level of each regime and the common slope have been removed by weighted least squares, and $A_n/B_n$ is the corresponding estimate of $\gamma$. Neither depends on how $t_j$ is centred, because the centring changes $q$ only by terms in the column space of $D_n$.
+
+For a prior scale $\tau > 0$ on $\gamma$ (in percentage points per squared wave), the one-sided half-normal mixtures are
+\begin{equation}
+E_n^{+} = \frac{2}{\tau\sqrt{a_n}}\, \Phi\!\left(\frac{A_n}{\sqrt{a_n}}\right) \exp\!\left(\frac{A_n^2}{2 a_n}\right), \qquad
+E_n^{-} = \frac{2}{\tau\sqrt{a_n}}\, \Phi\!\left(\frac{-A_n}{\sqrt{a_n}}\right) \exp\!\left(\frac{A_n^2}{2 a_n}\right),
+\label{eq:E}
+\end{equation}
+where $a_n = B_n + \tau^{-2}$ and $\Phi$ is the standard normal distribution function. The formula is the closed form of $\int_0^\infty \exp(\gamma A_n - \gamma^2 B_n/2)\,\pi_\tau(d\gamma)$ with $\pi_\tau$ the half-normal law, as in \citet{robbins1970}. The statistic $E_n^{+}$ is evidence for acceleration and $E_n^{-}$ for deceleration. Monitoring starts at the third wave of an epoch, the first at which $B_n > 0$.
+
+\begin{proposition}
+\label{prop:valid}
+Let $\alpha \in (0,1)$. Under $H_0$ in \eqref{eq:null}, for every $a$, $b$ and regime offsets $\mu_r$, and for every sequence of known $t_j$, $s_j$ and $r_j$,
+\[
+\Prob\big(\exists\, n \ge 3:\ E_n^{+} \ge 2/\alpha\big) \le \alpha/2, \qquad
+\Prob\big(\exists\, n \ge 3:\ E_n^{-} \ge 2/\alpha\big) \le \alpha/2,
+\]
+so that the probability that either monitor ever reaches $2/\alpha$ is at most $\alpha$. The same holds if $H_0$ is replaced by the one-sided null $\gamma \le 0$ for $E^{+}$ and $\gamma \ge 0$ for $E^{-}$.
+\end{proposition}
+
+The proof is in Appendix A. The guarantee holds at all times simultaneously, so the user may inspect the series after every release and may stop at any time, and the declaration rule is the first time either monitor reaches $2/\alpha$ (40 for $\alpha = 0.05$). The values of $E_n^{\pm}$ below this threshold have a graded interpretation as evidence ratios against $H_0$ and we use the conventional descriptive labels E $\ge 2$ and E $\ge 10$ for increasing evidence.
+
+\subsection{Redesigns as nuisance levels}
+\label{sec:redesign}
+
+The regime offsets $\mu_r$ enter $D_n$ as separate columns. A new regime adds a column that is zero on all earlier rows, so the sequence of residual $\sigma$-fields used in the proof remains nested. Because Proposition \ref{prop:valid} holds for all $\mu_r$, a redesign of any size, including one that is large relative to the standard errors, cannot produce a false declaration. The size of the jump is not used. The only information the agency must supply is the date from which the new regime applies, which official statistics releases announce in advance. Waves in a new regime inform the slope and curvature through their own within-regime movement, so a short post-redesign run contributes little until it accumulates.
+
+This formalizes the usual practice of excluding the transition increment, and extends it: nothing is discarded, and no bridging model is needed. For comparison we also report the pooled analysis, in which the regime columns are dropped and the spliced series is treated as one. It has no validity guarantee when a level shift is present, and Subsection 4.3 shows that it rejects with certainty.
+
+\subsection{Epochs and restarts}
+\label{sec:epochs}
+
+After a declaration the monitor starts a new epoch at the following wave, with fresh level and slope parameters. If an epoch begins at a stopping time, conditional on the past, the data of the epoch obey the same model.
+
+\begin{corollary}
+\label{cor:epochs}
+For an epoch beginning at a stopping time, the probability that it ends in a declaration while the latent path has been linear on the epoch's span so far is at most $\alpha$.
+\end{corollary}
+
+This is the sense of error control for a sequence of declarations. It does not bound the number of declarations over a long series, and it is not meant to: each declaration is a statement that the path has curved within its own epoch, and the series will curve repeatedly over a long horizon. The corollary says that a declaration is rarely spurious, not that declarations are rare.
+
+\subsection{Cross-strata attribution check}
+\label{sec:diagnostic}
+
+When an agency announces a redesign the regime label is known. When it does not, the label may have to be inferred. Let $z_{k,j}$ be the standardized change in stratum $k$ between waves $j-1$ and $j$. An instrument event moves every stratum in the same wave, with the same sign and with magnitudes far above the stratum's own distribution of within-regime movements, whereas a change in the latent path builds up over several waves. We therefore compare the jump of each stratum with the 95th percentile of its within-regime $|z_{k,j}|$. This is a screening rule with a causal-invariance rationale and not a formally identified estimator; it is used in Subsection 5.4 as a confirmation and not as part of the inferential guarantee.
+
+\subsection{Choice of constants}
+\label{sec:constants}
+
+The level is $\alpha = 0.05$ and each monitor is run at threshold $2/\alpha = 40$. The prior scale $\tau$ is the one tuning constant. A value of $\tau = 0.01$ percentage points per squared wave corresponds to a change of 0.1 points per wave in the growth rate accumulating over ten waves, which is a modest and decision-relevant change in the BTOS context; the value was fixed before the real-data analysis and Subsection 5.3 reports results for $\tau$ between 0.0025 and 0.04. Validity does not depend on $\tau$, only power and delay do.
+
+\section{Simulation study}
+\label{sec:simulation}
+
+All simulations use the dates and design-based standard errors of the 54 legacy-wording BTOS waves, so that the heteroscedasticity and the gap structure are realistic, and 20,000 replications per scenario. Four rules monitor the same curvature statistic $A_n/\sqrt{B_n}$. The e-process uses $\tau = 0.01$ and $\alpha = 0.05$. The Bonferroni rule uses the level $\alpha/L$ at each of $L = 52$ looks and needs the horizon in advance. The spending rule uses level $\alpha/(k(k+1))$ at look $k$ and does not. The uncorrected rule tests at level $\alpha$ at every look. The simulation code is part of the replication package.
+
+\subsection{False-declaration probability}
+\label{sec:typeI}
+
+\begin{table}[t]
+\small\centering
+\caption{Probability of at least one declaration over 52 looks when $H_0$ holds (20,000 replications; nominal level 0.05). The first three rows are valid cases, the remaining rows violate the model.}
+\label{tab:typeI}
+\input{tab_typeI.tex}
+\end{table}
+
+Table \ref{tab:typeI} shows that the e-process holds its level for all three slopes, with a rate of about 0.02, below the nominal 0.05 because the half-normal mixture and the two-sided split are conservative at this horizon. The Bonferroni rule is similar at 0.023 to 0.025, and the spending rule uses almost the whole budget (0.042 to 0.046). The uncorrected rule declares at least once in 60 percent of replications, on average 2.6 times. Two departures from the model are examined. A positive correlation between waves six apart, which is the lag at which a rotating panel returns, makes all valid rules more conservative, not less. Understated standard errors are different: with a 25 percent understatement the e-process declares falsely in 12 percent of replications, and with 50 percent in 31 percent; the other rules are no better. This is the main weakness of the approach and of all rules that treat published standard errors as exact; Subsection 6.2 discusses it.
+
+\subsection{Detection of a takeoff}
+\label{sec:power}
+
+\begin{table}[t]
+\small\centering
+\caption{Takeoff detection when the growth rate rises by the stated amount (percentage points per wave) at the 25th of 54 waves, from a baseline growth of 0.10. Each cell gives the probability of a declaration before the change, the probability of a first declaration after it, and the median delay in waves after the change.}
+\label{tab:power}
+\input{tab_power.tex}
+\end{table}
+
+Table \ref{tab:power} shows that the e-process and the Bonferroni rule have nearly identical detection probabilities and delays, and that the spending rule, which also does not need the horizon, is one to two waves slower or less powerful for the smallest change. The e-process is within one wave of the Bonferroni rule and does not need the horizon in advance. The uncorrected rule is faster by one to four waves but declares before the change in 45 percent of replications, so that its early declarations cannot be trusted.
+
+\subsection{Level shifts}
+\label{sec:shift}
+
+A level shift of 7.3 percentage points, the size of the BTOS wording change, is added at the 55th wave to a linear path with slope 0.10, using the standard errors of the full 56-wave series. The regime-aware e-process declares in 1.96 percent of replications, in line with Table \ref{tab:typeI}. The pooled analysis, which treats the series as a single regime, declares in all replications, as does the pooled uncorrected rule. A guarantee that survives the redesign needs the regime structure and not only a sequential test.
+
+\section{Application: business use of artificial intelligence}
+\label{sec:application}
+
+\subsection{Data}
+\label{sec:data}
+
+The BTOS is an experimental survey of about 1.2 million nonfarm employer businesses, divided into six rotating panels; each panel reports every twelve weeks and collection occurs every two weeks \citep{censusmethod2025}. Two questions on artificial intelligence have been asked since the collection period beginning 11 September 2023 \citep{bonney2024}. Until the collection period ending in October 2025 the question on current use read ``in producing goods or services''; from the collection beginning 17 November 2025 it read ``in any of its business functions'' \citep{census2026pr}. The 15 December 2025 file of the Census Bureau removed the legacy-wording rows, so we combine the archived vintages of 8 and 15 December 2025, following \citet{goldschlag2025}. The data set has 56 national waves: 54 legacy-wording waves with collection ending 24 September 2023 to 5 October 2025, and two revised-wording waves ending 30 November and 14 December 2025. No estimate was published for the three intervening periods, which appear as a gap in the time index. National standard errors have a median of 0.15 points (range 0.08 to 0.23). Estimates and standard errors are also available for seven employment size classes. The data and code are part of the replication package, and the data end in December 2025.
+
+Under the legacy wording the national estimate rose from 3.7 percent to 4.9 percent by the end of 2023, slipped to 4.7 percent in mid-2024, and then rose to 10.0 percent in October 2025. Under the revised wording it was 17.3 and 17.2 percent. The standardized wave-to-wave changes within the legacy regime have a lag-one autocorrelation of $-0.49$, as expected when sampling errors are independent and the latent path moves slowly. This shows why increments of a published series cannot be treated as independent observations in a sequential test, and why the monitor works with levels and removes the nuisance parameters by projection.
+
+\subsection{Declarations}
+\label{sec:declarations}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_series.pdf}
+\caption{National estimate of the share of businesses using artificial intelligence, September 2023 to December 2025, with 95 percent intervals. Dashed vertical line: acceleration declared on 6 April 2025. Dash-dotted vertical line: deceleration declared on 10 March 2024. Dotted vertical line: wording change of 17 November 2025. Circles: legacy wording; open squares: revised wording.}
+\label{fig:series}
+\end{figure}
+
+\begin{table}[t]
+\small\centering
+\caption{Epochs of the regime-aware monitor on the national series ($\tau = 0.01$, $\alpha = 0.05$). The date columns give the first wave at which the monitor of the declared direction reached E $\ge 2$ and E $\ge 10$; for the last epoch, the deceleration monitor. Peak E is the value at declaration, or the maximum for the epoch that ends without one.}
+\label{tab:decl}
+\input{tab_decl.tex}
+\end{table}
+
+Table \ref{tab:decl} and Figure \ref{fig:evalues} give the results. The first epoch begins on 24 September 2023. The deceleration monitor reaches E $\ge 2$ on 14 January 2024 and declares on 10 March 2024, after 13 waves, with the late-2023 surge (from 3.7 to 4.9 percent) followed by a flat spell. The second epoch begins on 24 March 2024. The acceleration monitor reaches E $\ge 2$ on 22 September 2024, E $\ge 10$ on 23 March 2025, and declares on 6 April 2025 after 28 waves. The third epoch begins on 20 April 2025. The deceleration monitor, which responds to the flattening of the series through August 2025, reaches E $\ge 2$ on 10 August 2025 and peaks at 19.0 on 7 September 2025, short of the threshold of 40; the acceleration monitor stays below 1.1. The epoch runs through the wording change, with the two revised-wording waves retained at a level of their own, and ends with the data without a declaration.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_evalues.pdf}
+\caption{E-values of the acceleration monitor (solid) and the deceleration monitor (dashed) on a logarithmic scale, by epoch; the dotted horizontal line is the declaration threshold of 40 and the dash-dotted vertical line is the wording change of 17 November 2025. Panel (a): regime-aware monitor. Panel (b): the pooled analysis, which ignores the regime structure and declares an acceleration immediately after the wording change.}
+\label{fig:evalues}
+\end{figure}
+
+\subsection{Sensitivity to the prior scale and to the level}
+\label{sec:sensitivity}
+
+The first two declarations are stable. For $\tau$ from 0.005 to 0.04 they occur on the same two dates, 10 March 2024 and 6 April 2025; for $\tau = 0.0025$ the first is two weeks later (24 March 2024) and the second is unchanged. The mid-2025 deceleration is not stable. With $\tau = 0.02$ the monitor declares it on 7 September 2025 (E = 89), with $\tau = 0.04$ on 10 August 2025 (E = 45), and with the baseline value of 0.01 it does not. At $\alpha = 0.10$ (threshold 20) the deceleration is declared on 10 August 2025, and the acceleration moves earlier to 23 March 2025. The correct statement is therefore that the summer 2025 slowdown was strong amber evidence with the baseline settings and a declared deceleration under more sensitive settings, and that the data do not decide between these.
+
+\subsection{The wording change}
+\label{sec:break}
+
+Between the last legacy wave (10.0 percent, 5 October 2025) and the first revised wave (17.3 percent, 30 November 2025), the estimate rose by 7.3 points, which is 25.7 combined standard errors, against a within-regime median absolute standardized change of 0.94 and a maximum of 6.2. The regime-aware monitor books no evidence from it, by Proposition \ref{prop:valid}. The pooled analysis does: it declares an acceleration on 30 November 2025 with an E-value of order $10^{123}$, and a repeated curvature test applied to the spliced series has a statistic of 36.4 in magnitude at that wave.
+
+\begin{table}[t]
+\small\centering
+\caption{Employment size classes at the wording change. The jump is the change between the last legacy estimate and the first revised estimate in combined standard errors, compared with the 95th percentile of the class's standardized wave-to-wave changes within the legacy regime. The last column gives the date on which the pooled monitor declares a spurious acceleration, where it does.}
+\label{tab:strata}
+\input{tab_strata.tex}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{fig_strata.pdf}
+\caption{Cross-strata check at the wording change. Bars: jump between the last legacy and first revised estimate of each employment size class in combined standard errors. Diamonds: 95th percentile of the class's standardized wave-to-wave changes within the legacy regime.}
+\label{fig:strata}
+\end{figure}
+
+Table \ref{tab:strata} and Figure \ref{fig:strata} show the cross-strata signature: all seven size classes jump in the same wave and in the same direction, by 6.1 to 13.8 standard errors and by 2.6 to 7.0 times their own 95th percentile (1.74 to 2.85). The pooled monitor declares a spurious acceleration at the wording change in five of the seven classes; the other two have larger standard errors and are not declared. No such signature was seen at any other wave.
+
+\subsection{Comparison with repeated testing}
+\label{sec:comparison}
+
+The curvature $z$ statistic was also computed at each wave of the naively spliced series and used with the same restart rule in three ways. The uncorrected test declares nine times, the first on 19 November 2023, one at the wording change (30 November 2025). The Bonferroni rule, which uses the knowledge of the remaining length of the series, declares five times: 10 March 2024, 6 April 2025, 10 August 2025, 21 September 2025 and 14 December 2025, the last at the revised-wording waves. The spending rule declares seven times. A moving-average rule (3 versus 8 waves) crosses four times: 24 March 2024, 19 May 2024, 7 September 2025 and 21 September 2025. The regime-aware e-process gives the same first two declarations as the Bonferroni rule and nothing at the wording change. The difference at the wording change should not be read as a feature of the sequential test: it comes from the regime structure, as Subsection 4.3 shows. The additional feature of the e-process is that it needs neither the horizon nor a spending sequence.
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Implications for agencies and users}
+\label{sec:implications}
+
+Three practices follow. Agencies that announce a redesign should publish the regime label with the series, which costs nothing and lets users condition on it. Users who monitor a series should do so with an anytime-valid rule, with the epoch and the evidence level reported. And when evidence is below the threshold, the e-value itself, as in the third epoch of Table \ref{tab:decl}, is a more informative summary of a slowdown than a binary alarm.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+The treatment of published standard errors as exact is the principal limitation. The simulations show that understatement of 25 percent raises the false declaration rate to 12 percent. Design-based standard errors for rolling business surveys with nonresponse adjustment may well be understated, and the way a question is worded is known to change measured adoption \citep{bick2026}; unknown variances could be handled with anytime-valid $t$-type constructions \citep{wang2025}, which we have not pursued here; a practical safeguard is to inflate them by a factor chosen from the dispersion of the series in a stable period, and to report results for that factor. Panel overlap does not harm validity in the simulations when it is positive, but negative correlations have not been studied. The null is a statement about shape: a linear path with a changing slope is not a null that corresponds to a model of technology adoption, and a declaration says that the path has curved, not why. The monitor needs the regime label; for unannounced changes the cross-strata check in Subsection 3.4 is only a screening device. Finally, the prior scale matters for the borderline episode in the application, and the sensitivity is reported in Subsection 5.3. The data in the application end in December 2025, and the post-redesign run is only two waves long.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+A published survey series can be monitored for changes in its growth rate with error control that holds under continuous inspection, for any unknown level and slope, and for any size of questionnaire redesign provided the redesign dates are known. The construction rests on a simple projection and a closed-form e-process. Applied to the BTOS series on business use of artificial intelligence, it declares a deceleration in March 2024 and an acceleration in April 2025, treats the summer 2025 slowdown as strong but sub-threshold evidence, and ignores a 25.7 standard error wording change that deceives a pooled analysis.
+
+\appendix
+\section{Proof of Proposition 1 and Corollary 1}
+\label{app:proof}
+
+Fix an epoch and write $\mathcal{X}_n = \mathrm{span}(D_n) \subset \mathbb{R}^n$. Under model \eqref{eq:model} and $H_0$, $y_{1:n} = D_n c + e_{1:n}$ for some $c \in \mathbb{R}^p$ and $e_{1:n} \sim \mathcal{N}(0, W_n^{-1})$, and under the alternative with curvature $\gamma$ the mean is $D_n c + \gamma q_{1:n}$. Let $G_n$ be the $\sigma$-field generated by the residual vector $R_n = M_n y_{1:n}$, that is, by $y_{1:n}$ modulo $\mathcal{X}_n$. Since the columns of $D_{n+1}$ restricted to the first $n$ rows span $\mathcal{X}_n$, with a new regime column being zero on earlier rows, $y_{1:n} + \mathcal{X}_n$ is a function of $y_{1:n+1} + \mathcal{X}_{n+1}$, so $(G_n)$ is a filtration.
+
+The law of $R_n$ does not depend on $c$: it is the image of $e_{1:n}$ under $M_n$, shifted by $\gamma M_n q_{1:n}$ under the alternative. In the inner product $\langle u, v \rangle_W = u^\top W_n v$, $M_n$ is an orthogonal projector onto $\mathcal{X}_n^{\perp}$, and the law of $R_n$ is the standard Gaussian on $\mathcal{X}_n^{\perp}$ with mean $\gamma M_n q$. Its density ratio against the case $\gamma = 0$ is therefore
+\[
+L_n(\gamma) = \exp\!\big(\gamma \langle M_n q, R_n \rangle_W - \tfrac{1}{2} \gamma^2 \langle M_n q, M_n q \rangle_W\big) = \exp\!\big(\gamma A_n - \tfrac{1}{2}\gamma^2 B_n\big),
+\]
+because $\langle M_n q, R_n \rangle_W = q^\top W_n M_n y = A_n$ and $\langle M_n q, M_n q\rangle_W = B_n$. Under $H_0$ and for every $c$, $L_n(\gamma)$ is the likelihood ratio of the observations $R_n$, of fixed law, on the increasing sequence $G_n$, so it is a nonnegative martingale with initial value one. Mixing over $\gamma > 0$ with the half-normal law keeps the martingale property and gives $E_n^{+}$, by evaluating the Gaussian integral:
+\[
+\int_0^\infty e^{\gamma A - \gamma^2 B/2}\, \frac{2}{\tau\sqrt{2\pi}} e^{-\gamma^2/(2\tau^2)}\, d\gamma
+= \frac{2}{\tau\sqrt{a}}\, \Phi\!\Big(\frac{A}{\sqrt{a}}\Big) e^{A^2/(2a)}, \qquad a = B + \tau^{-2}.
+\]
+Ville's inequality gives $\Prob(\sup_n E_n^{+} \ge 2/\alpha) \le \alpha/2$ for all $c$. The case of $E^{-}$ is the same with $\gamma < 0$. For the one-sided null, the process $A_n$ has, conditionally on $G_{n-1}$, a normal increment with mean $\gamma(B_n - B_{n-1})$ and variance $B_n - B_{n-1}$, so $\E[L_n(\delta)/L_{n-1}(\delta) \mid G_{n-1}] = \exp(\delta\gamma (B_n - B_{n-1})) \le 1$ for $\delta > 0$ and $\gamma \le 0$, and $E^{+}$ is a supermartingale. This proves Proposition \ref{prop:valid}.
+
+For Corollary \ref{cor:epochs}, condition on the history up to the stopping time at which the epoch starts. Given the history the future waves obey the model, and the latent path $\theta$ is a fixed function. Let $n^{*}$ be the largest $n$ for which $\theta$ is linear on the first $n$ waves of the epoch. A declaration at $n \le n^{*}$ is an event of the type bounded in Proposition \ref{prop:valid}, applied to the model with the path replaced by its linear extension, which has the same law of the data up to $n^{*}$.
+
+\section{Computation}
+\label{app:computation}
+
+For each epoch, at each wave $n \ge 3$ the weighted regression of $y$ and $q$ on regime indicators and $t$ gives the residuals; $A_n$ and $B_n$ follow from \eqref{eq:AB}, and $E_n^{\pm}$ is evaluated on the logarithmic scale. If $\max(E_n^{+}, E_n^{-}) \ge 40$ a declaration is recorded and the next epoch starts at wave $n+1$. All results were produced by the scripts in the replication package, with the data of Subsection 5.1.
+
+
+\section*{Declaration of Conflicting Interests}
+The Author(s) declare(s) that there is no conflict of interest.
+
+\section*{Funding}
+The Author(s) received no financial support for the research, authorship, and/or publication of this article.
+
+\section*{Data Availability}
+All data are public statistics of the U.S. Census Bureau (Business Trends and Outlook Survey, \url{https://www.census.gov/hfp/btos/data_downloads}). The analysis data set and the code that reproduces every number, table and figure are provided with the submission.
+
+\bibliographystyle{SageH}
+\bibliography{refs}
+
+\end{document}

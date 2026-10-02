@@ -31,8 +31,15 @@ Takeoff declared 20 Apr 2025, E=42.2 (41 increments); early peak 17.1 (28 Jan 20
 ## Status (2 Oct 2026): next venue = Journal of Official Statistics (JOS)
 JOS rules (from author guidelines): no submission fee/APC; double-anonymised, separate title page; LaTeX accepted (Word preferred); no footnotes/endnotes; no italics/bold for emphasis; "Subsection X.x"; Chicago author-date references with DOI, journal names in italics, references after appendices; figures must read in black and white, captions without colour words; short title + abstract + keywords; covering letter should justify fit; Declaration of Conflicting Interests before references; data availability statement. No length cap. Submit at mc.manuscriptcentral.com/joffstats. Check Sage's generative-AI policy before submitting.
 
-## Methodological issue found while retargeting (must resolve before submission)
-Eq. (null) assumes standardised increments z_t are iid N(0,1) under H0. With independent sampling errors the increments are MA(1): lag-1 autocorrelation of z in the BTOS legacy series is -0.487 (theory: -0.5). Consequences (code/check_null_validity.py):
-- Under a flat latent path with independent noise, the monitor's false-declaration rate is about 0.0003 (not 0.05): the sum of increments telescopes, so the test is valid but extremely conservative and the e-value is not a calibrated likelihood ratio.
-- A level-based e-process (flat-prior nuisance intercept, group-invariance argument) is exactly valid but, against a flat null, declares in Nov 2023 with E of order 1e4, because the series is plainly not flat. The Epoch-1 null needs a substantively meaningful baseline slope (pre-registered), or the paper must be reframed around the instrument-change and graded-evidence results.
-This changes the headline numbers (20 Apr 2025, E=42.2) and needs a decision on the redesign.
+## Methodological issue found while retargeting, and its resolution
+The earlier manuscripts (jetm, tfsc, frl) treat standardised increments as iid N(0,1) under H0. With independent sampling errors the increments are MA(1) (lag-1 autocorrelation of the BTOS increments: -0.487; code/check_null_validity.py), so the stated guarantee does not hold as written (the monitor is extremely conservative under a flat path, false-declaration rate about 0.0003). Those versions should not be resubmitted as they are.
+
+## manuscripts/jos (current version, for the Journal of Official Statistics)
+New method: invariant mixture e-process for curvature (change in growth rate) with unknown level and slope and regime-specific levels (exact validity, Proposition 1). LaTeX class sagej (Sage template files included). Results: deceleration declared 10 Mar 2024, acceleration 6 Apr 2025, summer-2025 slowdown sub-threshold (peak E 19.0; declared for tau >= 0.02 or alpha = 0.10), pooled analysis declares spuriously at the Nov 2025 wording change.
+Rebuild everything from the repository root:
+  python code/jos_simulation.py   # results/simulation.json (about 1 min)
+  python code/jos_analysis.py     # results/analysis.json, manuscripts/jos/fig_*.pdf
+  python code/make_tables.py      # manuscripts/jos/tab_*.tex
+  cd manuscripts/jos && pdflatex main && bibtex main && pdflatex main && pdflatex main
+Files for the portal: main.pdf (anonymised), title_page.pdf, cover_letter.pdf, plus data and code.
+Open items: BTOS data after Dec 2025 not yet added (census.gov unreachable from the sandbox); reviewer reports of the earlier rejection not in the repository; check Sage's generative-AI policy before submitting.

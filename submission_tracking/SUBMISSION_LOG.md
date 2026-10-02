@@ -24,3 +24,6 @@ Check scope, fees, length limits on each guide for authors BEFORE committing (FR
 - Portal answers used for TF&SC: data = "Reference data"; links https://www.census.gov/hfp/btos/data_downloads and FRED series ITNETUSERP2USA, ECOMPCTSA.
 - Author biography: Author_Biography.docx/.pdf (146 words, from CV).
 - Title pages are DOCX where required; manuscript is anonymised (double-blind).
+
+## 4. Journal of Official Statistics (planned, Oct 2026)
+Version: manuscripts/jos (new method, Sage class). No submission fee, no APC, double-anonymised, submission at mc.manuscriptcentral.com/joffstats. Not yet submitted.
