@@ -35,10 +35,13 @@ JOS rules (from author guidelines): no submission fee/APC; double-anonymised, se
 The earlier manuscripts (jetm, tfsc, frl) treat standardised increments as iid N(0,1) under H0. With independent sampling errors the increments are MA(1) (lag-1 autocorrelation of the BTOS increments: -0.487; code/check_null_validity.py), so the stated guarantee does not hold as written (the monitor is extremely conservative under a flat path, false-declaration rate about 0.0003). Those versions should not be resubmitted as they are.
 
 ## manuscripts/jos (current version, Journal of Official Statistics)
-Revised after an internal review round (methodology, domain, journal-fit, devil's advocate). Method: mixture e-process for curvature with unknown level and slope and regime-specific levels (Proposition 1, tolerance gamma0 option, Corollary 2 on the restart procedure). Honest scope: valid only for correct published SEs, additive redesign shifts and correctly dated regimes; simulations show where it fails (code/jos_simulation.py). Results: deceleration 10 Mar 2024 (triggered by one 6.2-SE drop; sensitive to treating that wave as a break), acceleration 6 Apr 2025, summer-2025 slowdown inconclusive (peak E 19.0, anytime-valid p 0.105; SE dispersion kappa about 1.55).
+Revised after two internal review rounds. Basic monitor: mixture e-process for curvature with unknown level and slope and regime-specific levels (Proposition 1, tolerance gamma0, Corollary 1). Extensions: scale-invariant monitor for an unknown common SE factor (Proposition 2), regime slopes, guard waves, log scale, mixture over tau. Recommended (primary) monitor: unknown scale with the tau mixture, designated after the exploratory analysis (stated in the paper).
+Findings to keep in mind: first declaration is driven by one 6.2-SE drop (10 Mar 2024); if it is a level shift no declaration remains; dependence between waves (AR(1) 0.1 already at nominal level) breaks all monitors; a local linear trend with a random-walk level (kappa 1.12, constant slope 0.12) fits as well as the declarations suggest changes of growth, so declarations are departures from a straight line, not established changes in growth.
 Rebuild from the repository root:
-  python code/jos_simulation.py   # results/simulation.json (about 4 min)
-  python code/jos_analysis.py     # results/analysis.json, manuscripts/jos/fig_*.pdf
-  python code/make_tables.py      # manuscripts/jos/tab_*.tex
+  python code/jos_simulation.py        # results/simulation.json (about 4 min)
+  python code/jos_extensions.py        # results/extensions.json (about 40 min)
+  python code/jos_analysis.py          # results/analysis.json, fig_strata.pdf
+  python code/jos_application_ext.py   # results/application_ext.json, fig_series.pdf (PYTHONPATH=code)
+  python code/make_tables.py           # manuscripts/jos/tab_*.tex
   cd manuscripts/jos && pdflatex main && bibtex main && pdflatex main && pdflatex main
-Data end Dec 2025 by choice. Open items: page ranges missing for two Annals references (not verifiable via Crossref); reviewer reports of the earlier rejection not in the repository; check the journal's generative-AI policy before submitting; references use the chicago.bst style.
+Data end Dec 2025 by choice. Open items: page ranges for two Annals references; reviewer reports of the earlier rejection not in the repository; check the journal's generative-AI policy before submitting; references use chicago.bst; a third review round has not been run.
