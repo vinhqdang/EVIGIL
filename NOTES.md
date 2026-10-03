@@ -28,7 +28,7 @@ Takeoff declared 20 Apr 2025, E=42.2 (41 increments); early peak 17.1 (28 Jan 20
 2. Pick new venue (technical journals first), check its guide for authors, then retarget framing (derivations up front, drop diffusion-theory/tech-waves material if venue is statistical).
 3. Extend AI panel past Dec 2025 with fresh BTOS download.
 
-## Status (2 Oct 2026): next venue = Journal of Official Statistics (JOS)
+## Status (3 Oct 2026): SUBMITTED to the Journal of Official Statistics (JOS); see submission_tracking/SUBMISSION_LOG.md
 JOS rules (from author guidelines): no submission fee/APC; double-anonymised, separate title page; LaTeX accepted (Word preferred); no footnotes/endnotes; no italics/bold for emphasis; "Subsection X.x"; Chicago author-date references with DOI, journal names in italics, references after appendices; figures must read in black and white, captions without colour words; short title + abstract + keywords; covering letter should justify fit; Declaration of Conflicting Interests before references; data availability statement. No length cap. Submit at mc.manuscriptcentral.com/joffstats. Check Sage's generative-AI policy before submitting.
 
 ## Methodological issue found while retargeting, and its resolution

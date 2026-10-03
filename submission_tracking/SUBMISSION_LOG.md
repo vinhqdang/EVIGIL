@@ -25,5 +25,11 @@ Check scope, fees, length limits on each guide for authors BEFORE committing (FR
 - Author biography: Author_Biography.docx/.pdf (146 words, from CV).
 - Title pages are DOCX where required; manuscript is anonymised (double-blind).
 
-## 4. Journal of Official Statistics (planned, Oct 2026)
-Version: manuscripts/jos (new method, Sage class). No submission fee, no APC, double-anonymised, submission at mc.manuscriptcentral.com/joffstats. Not yet submitted.
+## 4. Journal of Official Statistics (JOS) - SUBMITTED, 3 Oct 2026
+- Version: manuscripts/jos (new method, Sage class); package in submission/JOS_Journal_of_Official_Statistics/ (files named JOS_anytime-valid-monitoring_1..5).
+- Portal: mc.manuscriptcentral.com/joffstats (Sage Track). No submission fee, no APC, double-anonymised.
+- Form entries: 1 figure, 10 tables, about 5,700 words (body text); abstract 200 words; running head "Anytime-valid monitoring of survey series".
+- Generative AI declaration (general): used to support coding and polish writing; ideas, methods and algorithms are the author's; author reviewed, edited and is responsible.
+- Manuscript ID / submission date / reviewer comments: to be added when received.
+- Prior versions (JET-M desk reject, TF&SC reject) differ substantially in method (iid-increment e-process, since found invalid); this one uses the invariant curvature e-process.
+- Status: under review. Open items: page ranges for two Annals references; third internal review round not run.
