@@ -45,3 +45,6 @@ Rebuild from the repository root:
   python code/make_tables.py           # manuscripts/jos/tab_*.tex
   cd manuscripts/jos && pdflatex main && bibtex main && pdflatex main && pdflatex main
 Data end Dec 2025 by choice. Open items: page ranges for two Annals references; reviewer reports of the earlier rejection not in the repository; check the journal's generative-AI policy before submitting; references use chicago.bst; a third review round has not been run.
+
+## Lean 4
+lean/ contains a sorry-free Lean 4 + Mathlib check of parts of the proof of Proposition 1 (see lean/README.md for what is and is not formalized). Build: cd lean && lake build (needs the elan toolchain; lake update downloads the Mathlib cache).

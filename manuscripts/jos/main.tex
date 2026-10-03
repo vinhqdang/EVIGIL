@@ -360,6 +360,8 @@ For Proposition \ref{prop:scale}, let $\mathcal{X}_n$ be as above and write $R_n
 
 Regime slopes and guard waves enlarge $D_n$ by columns that, like the regime levels, are zero on rows before the regime begins (for regime slopes) or are unit vectors on single rows (for guard waves), so the nesting argument and Proposition \ref{prop:valid} apply unchanged. The restart argument of Corollary \ref{cor:epochs} carries over to every monitor in this paper, since it uses only the validity of the monitor within an epoch.
 
+Parts of the argument for Proposition \ref{prop:valid} have been checked with the Lean 4 proof assistant and Mathlib (the directory lean/ of the replication package): the identity between the likelihood ratio exponent and $\gamma A_n - \gamma^2 B_n/2$ for orthogonal projections, the monotonicity of the information, the supermartingale step for conditionally Gaussian increments, the supermartingale property of mixtures, Ville's inequality, the closed form of the half-normal mixture, and their combination into the time-uniform bound. The innovation representation of the regression score (conditionally Gaussian increments given the residual $\sigma$-field), the density ratio of the Gaussian residual vector, Proposition \ref{prop:scale} and Corollary \ref{cor:epochs} are not formalized; the first enters the Lean statement as a hypothesis.
+
 \section{Computation}
 \label{app:computation}
 

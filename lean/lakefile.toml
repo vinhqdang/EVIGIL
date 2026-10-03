@@ -1,0 +1,9 @@
+name = "evigil"
+defaultTargets = ["Evigil"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+
+[[lean_lib]]
+name = "Evigil"
