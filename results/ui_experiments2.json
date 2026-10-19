@@ -1,0 +1,286 @@
+{
+ "oracle_decomposition": {
+  "p0.06_slope_0.4": {
+   "known_theta_LR": 0.9925,
+   "single_component_sup": 0.8675,
+   "full_universal": 0.395
+  },
+  "p0.06_slope_0.2": {
+   "known_theta_LR": 0.395,
+   "single_component_sup": 0.1,
+   "full_universal": 0.0125
+  },
+  "p0.06_level_2.0": {
+   "known_theta_LR": 0.9925,
+   "single_component_sup": 0.9475,
+   "full_universal": 0.77
+  },
+  "p0.06_level_1.0": {
+   "known_theta_LR": 0.2125,
+   "single_component_sup": 0.075,
+   "full_universal": 0.02
+  },
+  "p0.03_slope_0.2": {
+   "known_theta_LR": 0.7575,
+   "single_component_sup": 0.32,
+   "full_universal": 0.035
+  },
+  "p0.03_level_1.0": {
+   "known_theta_LR": 0.505,
+   "single_component_sup": 0.265,
+   "full_universal": 0.085
+  }
+ },
+ "glr_calibration": {
+  "by_r_rel": {
+   "0.0": 24.72447683344601,
+   "0.5": 27.44155244011245,
+   "2.0": 25.63287169138592,
+   "8.0": 26.266333006743775,
+   "32.0": 30.32178080834985
+  },
+  "threshold": 30.32178080834985
+ },
+ "glr_power": {
+  "p0.0_slope_0.2": {
+   "glr_calibrated": 1.0,
+   "universal": 0.9925
+  },
+  "p0.06_slope_0.2": {
+   "glr_calibrated": 0.035,
+   "universal": 0.0075
+  },
+  "p0.06_slope_0.4": {
+   "glr_calibrated": 0.235,
+   "universal": 0.3925
+  },
+  "p0.03_slope_0.2": {
+   "glr_calibrated": 0.1,
+   "universal": 0.03
+  },
+  "p0.0_level_1.0": {
+   "glr_calibrated": 0.995,
+   "universal": 0.965
+  },
+  "p0.06_level_1.0": {
+   "glr_calibrated": 0.0675,
+   "universal": 0.0275
+  },
+  "p0.06_level_2.0": {
+   "glr_calibrated": 0.6975,
+   "universal": 0.7775
+  },
+  "p0.03_level_1.0": {
+   "glr_calibrated": 0.12,
+   "universal": 0.1
+  }
+ },
+ "enlarged_class": {
+  "ar_level_v0.1_phi0.9": {
+   "rw_class": 0.0,
+   "enlarged_class": 0.0
+  },
+  "ar_level_v0.3_phi0.98": {
+   "rw_class": 0.0,
+   "enlarged_class": 0.0
+  },
+  "power_slope0.4_rw0.06": {
+   "rw_class": 0.41,
+   "enlarged_class": 0.39
+  }
+ },
+ "spike_in": {
+  "slope": {
+   "0.1": 0.0033333333333333335,
+   "0.2": 0.006666666666666667,
+   "0.3": 0.12666666666666668,
+   "0.4": 0.3466666666666667,
+   "0.5": 0.79,
+   "0.6": 0.97,
+   "0.8": 1.0
+  },
+  "level": {
+   "0.5": 0.0,
+   "1.0": 0.016666666666666666,
+   "1.5": 0.25,
+   "2.0": 0.7433333333333333,
+   "2.5": 0.9766666666666667,
+   "3.0": 1.0,
+   "4.0": 1.0
+  }
+ },
+ "positive_control_wording": {
+  "final_logE": 17.136074464454957,
+  "max_logE": 17.157688228249086,
+  "level_family_max": 17.828519243614686,
+  "date_of_max": "2025-11-30"
+ },
+ "model_comparison": {
+  "current use": {
+   "line + independent noise": {
+    "loglik": -53.2451761855302,
+    "k": 4,
+    "aic": 114.4903523710604,
+    "params": [
+     17.64424127107615
+    ]
+   },
+   "quadratic + independent noise": {
+    "loglik": -30.472484703159136,
+    "k": 5,
+    "aic": 70.94496940631828,
+    "params": [
+     7.823261682138974
+    ]
+   },
+   "line + random-walk level": {
+    "loglik": -15.473598686131666,
+    "k": 5,
+    "aic": 40.94719737226333,
+    "params": [
+     1.2041946548044298,
+     0.054995203433671126
+    ]
+   },
+   "quadratic + random-walk level": {
+    "loglik": -14.972728156698452,
+    "k": 6,
+    "aic": 41.9454563133969,
+    "params": [
+     1.2751549755193732,
+     0.05095131227073906
+    ]
+   },
+   "line + random slope (integrated random walk)": {
+    "loglik": -21.23670988665095,
+    "k": 5,
+    "aic": 52.4734197733019,
+    "params": [
+     2.78019471779923,
+     0.004242114532179744
+    ]
+   },
+   "line + random-walk level + random slope": {
+    "loglik": -15.4735986861102,
+    "k": 6,
+    "aic": 42.9471973722204,
+    "params": [
+     1.2041952480547806,
+     0.05499508145818203,
+     3.8174688910290815e-18
+    ]
+   },
+   "line + AR(1) level (phi=0.9)": {
+    "loglik": -16.09292581539799,
+    "k": 5,
+    "aic": 42.18585163079598,
+    "params": [
+     1.170147449288218,
+     0.29870043112977174
+    ]
+   }
+  },
+  "planned use": {
+   "line + independent noise": {
+    "loglik": -68.79005781265147,
+    "k": 4,
+    "aic": 145.58011562530294,
+    "params": [
+     21.662039390964235
+    ]
+   },
+   "quadratic + independent noise": {
+    "loglik": -26.119255502736962,
+    "k": 5,
+    "aic": 62.238511005473924,
+    "params": [
+     4.719024853016057
+    ]
+   },
+   "line + random-walk level": {
+    "loglik": -17.638186279081282,
+    "k": 5,
+    "aic": 45.276372558162564,
+    "params": [
+     0.5346094096741151,
+     0.07887578405032064
+    ]
+   },
+   "quadratic + random-walk level": {
+    "loglik": -14.993270274378375,
+    "k": 6,
+    "aic": 41.98654054875675,
+    "params": [
+     0.846472637822262,
+     0.052797642913303314
+    ]
+   },
+   "line + random slope (integrated random walk)": {
+    "loglik": -21.95180253719767,
+    "k": 5,
+    "aic": 53.90360507439534,
+    "params": [
+     1.529430531193642,
+     0.011347004889650928
+    ]
+   },
+   "line + random-walk level + random slope": {
+    "loglik": -17.540269536357023,
+    "k": 6,
+    "aic": 47.080539072714046,
+    "params": [
+     0.6836662285522944,
+     0.06458032429195971,
+     0.00028160639276037425
+    ]
+   },
+   "line + AR(1) level (phi=0.9)": {
+    "loglik": -19.91650021701569,
+    "k": 5,
+    "aic": 49.83300043403138,
+    "params": [
+     0.4642393167307133,
+     0.4585750973001799
+    ]
+   }
+  }
+ },
+ "planned_use": {
+  "r": 0.12898672325933314,
+  "kappa2": 0.6213223097006062,
+  "p": 0.08014232881620177,
+  "lr_stat": 104.67200573983075,
+  "max_logE": -0.9650206230681149,
+  "by_family": {
+   "slope": -0.963219203422998,
+   "level": -0.9668252936832116
+  }
+ },
+ "roughness_inflation": {
+  "curvature": {
+   "lambda_": 150.54125151189436,
+   "var_Z": 194.4549845708337,
+   "fixed_n_test_false_positive": 0.8882214407453521
+  },
+  "slope change at wave 20": {
+   "lambda_": 155.75138432069923,
+   "var_Z": 201.14053246515488,
+   "fixed_n_test_false_positive": 0.8900828000830534
+  },
+  "level shift at wave 20": {
+   "lambda_": 72.24355654193674,
+   "var_Z": 93.98480291788671,
+   "fixed_n_test_false_positive": 0.8397799887062822
+  },
+  "slope change at wave 35": {
+   "lambda_": 135.1626045708897,
+   "var_Z": 174.7213838264935,
+   "fixed_n_test_false_positive": 0.8821216736360808
+  },
+  "level shift at wave 35": {
+   "lambda_": 96.62573642329043,
+   "var_Z": 125.2715737827808,
+   "fixed_n_test_false_positive": 0.8609872266063736
+  }
+ }
+}
