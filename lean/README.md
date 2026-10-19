@@ -11,7 +11,7 @@ the standard axioms `propext`, `Classical.choice`, `Quot.sound`.
 | `Gaussian.lean` | `gaussian_increment_condMgf` | An increment independent of the past with law `N(m, v)` has conditional mgf `exp(m u + v u²/2)`. |
 | `Supermartingale.lean` | `expProc_supermartingale` | If the increments of `A` have conditional mgf `exp(u γ ΔB + u² ΔB/2)` and `B` is nondecreasing, `exp(u A_n - u² B_n/2)` is a supermartingale for `u ≥ 0`, `γ ≤ 0`. |
 | `Mixture.lean` | `mixture_supermartingale` | A mixture (Fubini) of supermartingales over a probability measure is a supermartingale. |
-| `Ville.lean` | `ville` | Ville's inequality for nonnegative supermartingales, from optional stopping: `ε P(∃ n, f n ≥ ε) ≤ E f 0`. |
+| `Ville.lean` | `ville`, `ville_dominated` | Ville's inequality for nonnegative supermartingales, from optional stopping: `ε P(∃ n, f n ≥ ε) ≤ E f 0`. |
 | `ClosedForm.lean` | `mixture_closed_form` | `∫_{u>0} e^{uA - u²B/2} · 2/(τ√(2π)) e^{-u²/(2τ²)} du = 2/(τ√a) · Φ(A/√a) · e^{A²/(2a)}`, `a = B + τ⁻²`. |
 | `Main.lean` | `prop1_time_uniform` | Combines the above: under the hypotheses, `ε P(∃ n, E_n ≥ ε) ≤ 1` for the mixture `E_n`, i.e. `P(∃ n, E_n ≥ 2/α) ≤ α/2`. |
 

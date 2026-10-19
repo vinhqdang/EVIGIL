@@ -32,4 +32,5 @@ Check scope, fees, length limits on each guide for authors BEFORE committing (FR
 - Generative AI declaration (general): used to support coding and polish writing; ideas, methods and algorithms are the author's; author reviewed, edited and is responsible.
 - Manuscript ID / submission date / reviewer comments: to be added when received.
 - Prior versions (JET-M desk reject, TF&SC reject) differ substantially in method (iid-increment e-process, since found invalid); this one uses the invariant curvature e-process.
-- Status: under review. Open items: page ranges for two Annals references; third internal review round not run.
+- Outcome: DESK REJECTED 19 Oct 2026 (JOS-2026-0197, Dr Suad Elezovic): treated as an application of existing e-process/sequential methodology rather than a sufficiently novel methodological contribution; concerns on the substantive treatment of the application, clarity, and technical development; declined without external review.
+- (superseded status) under review. Open items: page ranges for two Annals references; third internal review round not run.

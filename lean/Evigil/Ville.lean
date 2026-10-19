@@ -94,4 +94,15 @@ theorem ville (hsup : Supermartingale f 𝒢 μ) (hnn : 0 ≤ f) {ε : ℝ≥0} 
   exact iSup_le fun n => ville_finite hsup hnn n
 
 
+/-- **Domination form of Ville's inequality** (the step in the proof of validity of the universal
+e-process): if `M n ≤ Λ n` pointwise for a nonnegative supermartingale `Λ`, then
+`ε μ{∃ n, M n ≥ ε} ≤ E Λ 0`. -/
+theorem ville_dominated {M : ℕ → Ω → ℝ} (hsup : Supermartingale f 𝒢 μ) (hnn : 0 ≤ f)
+    (hle : ∀ n ω, M n ω ≤ f n ω) {ε : ℝ≥0} :
+    ε * μ {ω | ∃ n, (ε : ℝ) ≤ M n ω} ≤ ENNReal.ofReal (∫ ω, f 0 ω ∂μ) := by
+  have hsub : {ω | ∃ n, (ε : ℝ) ≤ M n ω} ⊆ {ω | ∃ n, (ε : ℝ) ≤ f n ω} := by
+    rintro ω ⟨n, hn⟩
+    exact ⟨n, hn.trans (hle n ω)⟩
+  exact le_trans (mul_le_mul_right (measure_mono hsub) _) (ville hsup hnn (ε := ε))
+
 end Evigil
