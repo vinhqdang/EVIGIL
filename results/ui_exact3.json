@@ -1,0 +1,50 @@
+[
+ {
+  "p": 0.06,
+  "family": "slope",
+  "delta": 0.4,
+  "known": 0.9975,
+  "one_sup": 0.98,
+  "universal": 0.695
+ },
+ {
+  "p": 0.06,
+  "family": "slope",
+  "delta": 0.2,
+  "known": 0.4975,
+  "one_sup": 0.35,
+  "universal": 0.0525
+ },
+ {
+  "p": 0.06,
+  "family": "level",
+  "delta": 2.0,
+  "known": 0.995,
+  "one_sup": 0.995,
+  "universal": 0.9025
+ },
+ {
+  "p": 0.06,
+  "family": "level",
+  "delta": 1.0,
+  "known": 0.67,
+  "one_sup": 0.6125,
+  "universal": 0.11
+ },
+ {
+  "p": 0.03,
+  "family": "slope",
+  "delta": 0.2,
+  "known": 0.865,
+  "one_sup": 0.67,
+  "universal": 0.155
+ },
+ {
+  "p": 0.03,
+  "family": "level",
+  "delta": 1.0,
+  "known": 0.865,
+  "one_sup": 0.83,
+  "universal": 0.195
+ }
+]

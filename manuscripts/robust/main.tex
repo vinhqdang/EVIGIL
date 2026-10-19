@@ -21,26 +21,26 @@
 \maketitle
 
 \begin{abstract}
-Anytime-valid monitoring of a trend usually assumes that the noise around a smooth path is independent. We show that this fails under the smallest departure from it. If the latent level carries a random-walk disturbance of any positive variance, every fixed-shape contrast statistic has variance inflated by a factor that grows as the square of the series length, so that e-processes built on independent noise declare a change with probability tending to one; we give the exact rate and the sample size at which the failure begins. We then construct a universal e-process whose null class contains the random-walk level with unknown variance, an unknown scale of the noise, unknown regime levels and a linear trend, and prove that it is valid for every member of an arbitrary parametric Gaussian covariance class, whatever the mixture over alternatives. A decomposition separates the cost of robustness into the mixture over alternatives, the supremum over nuisance parameters and the information destroyed by the roughness itself, and a spike-in calibration gives the minimum detectable change. The motivating application is the Business Trends and Outlook Survey of the U.S.\ Census Bureau (56 waves on business use of artificial intelligence): the roughness is highly significant, an independence-based monitor declares changes in almost every series simulated from the fitted null, and the universal e-process finds no evidence of a change in growth, with a detectable change that is three to four times the average growth rate.
+Anytime-valid monitoring of a trend usually assumes independent noise around a smooth path. This fails under the smallest departure: if the latent level carries a random-walk disturbance of any positive variance, the variance of every fixed-shape contrast statistic is inflated in proportion to the square of the series length, and e-processes built on independent noise declare a change with probability tending to one. We construct a universal e-process that is valid for any parametric Gaussian covariance class with unknown scale and a linear trend, by reducing the data to their maximal invariant under location and scale and dividing a mixture over alternatives by the supremum of the null likelihood. An information ceiling shows that no valid monitor can have expected log e-value or power above explicit values, and the e-process falls short of it by roughly the logarithm of the size of its mixture. In 56 waves of the U.S.\ Census Bureau's Business Trends and Outlook Survey on business use of artificial intelligence, roughness is highly significant, the independence-based monitor declares changes in nearly every series simulated from the fitted null, and the universal e-process reaches an e-value of 18 against a threshold of 20.
 \end{abstract}
 
-\noindent\textbf{Keywords:} anytime-valid inference; e-process; change detection; random-walk noise; spurious trend; survey time series.
+\noindent\textbf{Keywords:} anytime-valid inference; e-process; change detection; random-walk noise; survey time series
 
 \section{Introduction}
 
 Users of a sequence of published estimates inspect each release and ask whether the growth of the indicator has changed. Testing at every release inflates error rates \citep{armitage1969}, and the modern remedy is anytime-valid inference, in which e-values and test martingales control the error uniformly over time \citep{howard2021,vovk2021,ramdas2023,grunwald2024}. Constructions for change detection and sequential experiments take the observations to be, given the past, draws from a fixed parametric family with independent noise \citep{johari2022,shin2023,shin2024}. For a smooth trend this means independent errors around a deterministic path, and the e-process monitors departures of the path.
 
-\paragraph{The problem.} Independent noise around a straight line is rarely credible for a published series. The latent level moves from wave to wave for reasons unrelated to growth, and a random walk with small variance is the simplest description \citep{harvey1989,harvey2000,durbin2012}. In the fixed-sample trend-testing literature a persistent noise component is known to invalidate tests that assume independence, and it is the reason for spurious regressions \citep{granger1974,phillips1986} and for the robust trend tests of \citet{vogelsang1998}, \citet{bunzel2005}, \citet{harvey2007} and \citet{perron2009}. Those results do not transfer to the sequential setting. A fixed-sample test is wrong at one sample size; a monitor that is inspected at every release and uses a threshold that grows only logarithmically is wrong in a way that worsens with every release, and its error is not controlled by any rule that ignores the dependence. Nothing in the anytime-valid literature quantifies this, and none of its constructions has a null class that contains a rough level.
+\paragraph{The problem.} Independent noise around a straight line is rarely credible for a published series. The latent level moves from wave to wave for reasons unrelated to growth, and a random walk with small variance is the simplest description \citep{harvey1989,harvey2000,durbin2012}. In the fixed-sample trend-testing literature a persistent noise component is known to invalidate tests that assume independence, and it is the reason for spurious regressions \citep{granger1974,phillips1986} and for the robust trend tests of \citet{vogelsang1998}, \citet{bunzel2005}, \citet{harvey2007} and \citet{perron2009}. Those results do not transfer to the sequential setting. A fixed-sample test is wrong at one sample size; a monitor that is inspected at every release and uses a threshold that grows only logarithmically is wrong in a way that worsens with every release. Nothing in the anytime-valid literature quantifies this, and none of its constructions has a null class that contains a rough level.
 
 \paragraph{Contributions.}
 \begin{enumerate}
-\item \emph{A failure theorem} (Section \ref{sec:failure}). For any fixed-shape contrast of an equally spaced series, a random-walk level of variance $p$ per wave and sampling variance $\sigma^2$ inflate the variance of the standardized statistic to $1 + (p/\sigma^2)\,c\,n^2\,(1+o(1))$ with a constant $c>0$ that depends on the contrast only (for curvature $c = 1/42$). The independence-based e-process therefore declares with probability tending to one, for every $p>0$. The inflation is already 150-fold at the 54 waves of our application, and the failure begins when $n \approx \sigma/\sqrt{pc}$, about five waves for the curvature of the series studied here. The contrast form shows that the failure is not specific to the curvature statistic: it covers slope-change and level-shift contrasts.
-\item \emph{A universal e-process and its validity theorem} (Section \ref{sec:method}). For a Gaussian null class whose covariance may be any consistent parametric family, we give an e-process that is the ratio of an arbitrary mixture over alternatives to the supremum of the invariant (restricted) likelihood of the null, and prove it valid for every member of the class (Theorem \ref{thm:validity}). The random-walk level, the first-order autoregressive level and a random slope are special cases. The class is correlated and has nuisance parameters in the covariance, which the existing universal-inference and invariance arguments do not cover.
-\item \emph{The price of robustness} (Sections \ref{sec:method}--\ref{sec:application}). An exact inequality separates the loss into the mixture, the supremum and the information that the roughness destroys, a simulated decomposition shows that most of the loss is the mixture, and a spike-in calibration on the design of the application gives the minimum detectable change. On the 56 waves of the Business Trends and Outlook Survey (BTOS) on business use of artificial intelligence, the series could reveal a change of slope of 0.43 points per wave with probability 50 percent and 0.51 with probability 80 percent, against an average growth of 0.12.
+\item \emph{A failure theorem} (Section \ref{sec:failure}). For any fixed-shape contrast of an equally spaced series, a random-walk level of variance $p$ per wave and sampling variance $\sigma^2$ inflate the variance of the standardized statistic to $1 + (p/\sigma^2)\,c\,n^2\,(1+o(1))$ with $c>0$ depending on the contrast only (for curvature $c = 1/42$). The independence-based e-process therefore declares with probability tending to one for every $p>0$. At the 54 waves of our application the inflation is 150-fold, and the failure begins when $n \approx \sigma/\sqrt{pc}$, about five waves.
+\item \emph{A universal e-process and its validity theorem} (Section \ref{sec:method}). The data are reduced to the maximal invariant under the location nuisance and the unknown scale, the numerator is an arbitrary mixture over alternatives, and the denominator is the supremum of the invariant null likelihood over a correlated parametric class. The e-process is valid for every member of the class (Theorem \ref{thm:validity}); the random-walk level, an autoregressive level and a random slope are special cases. The reduction by scale invariance is exact and removes the scale from both the denominator and the mixture; in simulation it raises power from 0.39 to 0.70 for a slope change of 0.4 points per wave.
+\item \emph{An information ceiling} (Section \ref{sec:ceiling}). For any monitor that is valid for the null class we give a closed-form upper bound on expected log e-value (the smallest Kullback--Leibler divergence from the alternative to the null class) and on power. The ceiling is a lower bound on what any monitor can detect. On the design of our application no valid monitor can detect a slope change of 0.09 points per wave with probability 50 percent, against an average growth of 0.12, and the e-process reaches 50 percent at 0.35. The gap between the ceiling and the achieved growth of the log e-value is of the order of the log of the mixture size.
+\item \emph{An application} (Section \ref{sec:application}). On the 56 waves of the Business Trends and Outlook Survey (BTOS) on business use of artificial intelligence, roughness is highly significant (likelihood-ratio statistic 79.6), an independence-based monitor declares two or more changes in 98 percent of series simulated from the fitted null, and the universal e-process reaches an e-value of 18 against a threshold of 20. We report this as borderline and not as a detection.
 \end{enumerate}
-The empirical finding is a null result and it is stated as one. The paper does not claim that the growth of business use of artificial intelligence is constant; it shows that this series cannot reveal a change smaller than three to four times its average growth once its roughness is accounted for, and that the changes that an independence-based monitor reports are produced by the roughness.
 
-\paragraph{Related work.} The e-process machinery we use is standard: Ville's inequality, mixture martingales \citep{robbins1970}, invariance with respect to a location nuisance \citep{perezortiz2024} and the composite null construction of universal inference \citep{wasserman2020,ruf2023}. Sequential change detection is typically built on cumulative-sum or generalized likelihood-ratio statistics with calibrated thresholds \citep{page1954,siegmund1995,lorden2005}; e-detectors \citep{shin2024} give anytime-valid versions for independent observations. We do not propose a new mixture or a new detector. The contribution is the failure result, which has no counterpart in the anytime-valid literature, the validity theorem for a correlated null class, and the quantified cost. State-space models for survey series with a rough level \citep{scott1974,durbin2012,harvey2000} estimate the trend and level; they do not give sequential error control, and their likelihood-ratio tests for roughness have non-standard null distributions \citep{self1987}.
+\paragraph{Related work.} The e-process machinery is standard: Ville's inequality, mixture martingales \citep{robbins1970}, invariance with respect to a nuisance group \citep{perezortiz2024} and the composite null of universal inference \citep{wasserman2020,ruf2023}. Sequential change detection is typically built on cumulative-sum or generalized likelihood-ratio statistics with calibrated thresholds \citep{page1954,siegmund1995,lorden2005}; e-detectors \citep{shin2024} give anytime-valid versions for independent observations. We propose no new mixture or detector. The contributions are the failure result, which has no counterpart in the anytime-valid literature; the validity theorem for a correlated null class with exact scale invariance; the information ceiling, which separates what is lost to the null class from what is lost to the construction; and the application. State-space models for survey series with a rough level \citep{scott1974,durbin2012,harvey2000} estimate the trend and level but give no sequential error control, and their likelihood-ratio tests for roughness have nonstandard null distributions \citep{self1987}.
 
 \section{Setting}
 \label{sec:setting}
@@ -72,7 +72,7 @@ Let $y_j = \beta_0 + \beta_1 j + L_j + e_j$ with $e_j \sim \mathcal{N}(0,\sigma^
 Consequently, for every $\tau>0$, $\alpha\in(0,1)$ and $p>0$, the probability that $E_n(a)\ge 2/\alpha$ tends to one as $n\to\infty$. For curvature, $\psi(x) = x^2$ and $c = 1/42$.
 \end{theorem}
 
-The proof is in Appendix \ref{app:proof}. The quantity $\lambda_n$ is the Rayleigh quotient of $W$ against the sampling covariance on the contrast, and it is exact for any $a$; the asymptotic form gives the rate. Three consequences follow. First, the phase transition: the inflation exceeds one when $n > n^\ast = \sigma/\sqrt{p\,c}$; for the curvature of the BTOS design, with $r/s^2 \approx 2$, this is about five waves. Second, the statement is not an artefact of the half-normal mixture or of known scale; Proposition \ref{prop:scale} treats estimation of the scale. Third, the failure is in the variance, not in a bias: the statistic is centred and a simple recalibration of its threshold would restore the level at one $n$ but not uniformly over $n$, since the inflation grows.
+The proof is in Appendix \ref{app:proof}. The quantity $\lambda_n$ is the Rayleigh quotient of $W$ against the sampling covariance on the contrast, and it is exact for any $a$; the asymptotic form gives the rate. Three consequences follow. First, the phase transition: the inflation exceeds one when $n > n^\ast = \sigma/\sqrt{p\,c}$; for the curvature of the BTOS design, with $r/s^2 \approx 2$, this is about five waves. Second, the statement is not an artifact of the half-normal mixture or of known scale; Proposition \ref{prop:scale} treats estimation of the scale. Third, the failure is in the variance, not in a bias: the statistic is centered and a simple recalibration of its threshold would restore the level at one $n$ but not uniformly over $n$, since the inflation grows.
 
 \begin{proposition}[unknown scale; proof sketch]
 \label{prop:scale}
@@ -100,94 +100,112 @@ Table \ref{tab:inflation} shows what this means for the application design: cont
 
 \subsection{Construction and validity}
 
-Let $X_n$ be the design of the first $n$ waves and $R_n$ the data modulo the column space of $X_n$. Under \eqref{eq:null} the law of $R_n$ does not depend on $c$, and it has a density with respect to a fixed reference measure on the residual space, of the restricted likelihood (REML) form
+Let $X_n$ be the design of the first $n$ waves and $R_n = M_n y_{1:n}$ the data modulo the column space of $X_n$, with $M_n$ the orthogonal projection onto its complement and $\nu = n - q$. Under \eqref{eq:null} the law of $R_n$ does not depend on $c$. The scale $\kappa^2$ is a further nuisance: multiplying $y$ by a constant multiplies $R_n$ by the same constant. The maximal invariant under both is the direction $u_n = R_n/|R_n|$. Under $\mathcal{N}(Xc,\kappa^2\Sigma_r)$, with $\Sigma_r = D + rW$, the direction has an angular central Gaussian law that depends on $r$ only, with density, relative to the uniform measure on the sphere of the residual space,
 \[
-P_\theta(R_n) \propto |\Sigma_\theta|^{-1/2}\,|X_n^\top \Sigma_\theta^{-1} X_n|^{-1/2}\exp\!\big(-\tfrac12\, y^\top P_\theta\, y\big), \qquad \Sigma_\theta = \kappa^2(D + rW),
+p_r(u_n) \propto |\Sigma_r|^{-1/2}\,|X_n^\top \Sigma_r^{-1} X_n|^{-1/2}\,\big(y^\top P_r\, y\big)^{-\nu/2},\qquad P_r = \Sigma_r^{-1} - \Sigma_r^{-1}X_n (X_n^\top\Sigma_r^{-1}X_n)^{-1}X_n^\top\Sigma_r^{-1},
 \]
-with $P_\theta = \Sigma_\theta^{-1} - \Sigma_\theta^{-1}X_n (X_n^\top\Sigma_\theta^{-1}X_n)^{-1}X_n^\top\Sigma_\theta^{-1}$. A component $c = (g, f, k, \tau)$ of the alternative has a nuisance setting $g = (r_g, \kappa_g^2)$, a family $f$ (slope or level), a change wave $k$ and a prior scale $\tau$ for $\delta$. With $z$ the alternative column, $a = z^\top P_g y$ and $b = z^\top P_g z$ (with $P_g$ computed at $\kappa^2=1$ scaled by $\kappa_g^{-2}$),
-\[
-Q_{c}(R_n) = P_{g}(R_n)\cdot \mathrm{BF}_c, \qquad \mathrm{BF}_c = (1 + \tau^2 b)^{-1/2}\exp\!\Big(\frac{\tau^2 a^2}{2(1 + \tau^2 b)}\Big),
-\]
-the density of $R_n$ when $\delta\sim\mathcal{N}(0,\tau^2)$. Let $Q_n = \sum_c w_c Q_c$ with fixed weights and
+up to a factor $|R_n|^{\nu}$ and a constant that are the same for all $r$ and all alternatives and cancel in every ratio below.
+
+A component $c = (r_g, f, k, \tau)$ of the alternative has a roughness $r_g$, a family $f$ (slope or level), a change wave $k$ and a prior scale $\tau$. With $z$ the alternative column, $a = z^\top P_{r_g} y$, $b = z^\top P_{r_g} z$ and $S = y^\top P_{r_g} y$, put
 \begin{equation}
-E_n = \frac{Q_n(R_n)}{\sup_{\theta \in \Theta_0} P_\theta(R_n)}, \qquad \Theta_0 = \{(\kappa^2, r): \kappa^2 > 0,\ r \in \mathcal{R}_0\}.
+\frac{q_c(u_n)}{p_{r_g}(u_n)} = (1 + \tau^2 b)^{-1/2}\Big(1 - \frac{\tau^2 a^2}{(1+\tau^2 b)\,S}\Big)^{-\nu/2}.
+\label{eq:bf}
+\end{equation}
+This is the ratio of the laws of $u_n$ when $y \sim \mathcal{N}(Xc + \delta z, \kappa^2\Sigma_{r_g})$ with $\delta \mid \kappa \sim \mathcal{N}(0,\kappa^2\tau^2)$ and when $\delta=0$: integrating out $\delta$ gives covariance $\kappa^2(\Sigma_{r_g}+\tau^2 zz^\top)$, again an angular central Gaussian, and the determinant and quadratic form follow from the matrix determinant lemma and the Sherman--Morrison formula. The expression in parentheses is positive because $a^2 \le b S$. Let $Q_n = \sum_c w_c q_c$ with fixed weights, and define
+\begin{equation}
+E_n = \frac{Q_n(u_n)}{\max_{r \in \mathcal{R}_0} p_r(u_n)}.
 \label{eq:E}
 \end{equation}
-The supremum over $\kappa^2$ is explicit, $\hat\kappa^2 = y^\top P_{1,r}\,y/\nu$ with $\nu = n-q$, and the supremum over $r$ is a search over the grid. The weights are uniform over the two families, the change waves $k\in\{3,\dots,n_{\max}\}$, five roughness values from zero to 32 times the median sampling variance, four values of $\kappa_g^2$ from 0.5 to 4, and four prior scales per family (slope: 0.1, 0.2, 0.4, 0.8; level: 0.5, 1, 2, 4), about 8,300 components, a log-weight of 9 nats. Components whose change wave lies beyond the current wave have $z=0$ on the data so far and contribute the null density.
+The weights are uniform over two families, change waves $k\in\{3,\dots,n_{\max}\}$, five roughness values from zero to 32 times the median sampling variance, and four prior scales per family (slope: 0.1, 0.2, 0.4, 0.8; level: 0.5, 1, 2, 4), about 2,100 components for $n_{\max}=54$ and a log-weight of 7.6 nats. Components whose change wave lies beyond the current wave have $z = 0$ on the data so far and contribute the null density. The supremum in \eqref{eq:E} is over the 46 roughness values of $\mathcal{R}_0$ and nothing is profiled: the scale has been removed by invariance, not estimated.
 
 \begin{theorem}[validity]
 \label{thm:validity}
-Let $\{\Sigma_\theta(n)\}_{\theta\in\Theta_0}$ be any collection of positive-definite covariance matrices, consistent in $n$ (each $\Sigma_\theta(n)$ is the leading block of $\Sigma_\theta(n+1)$), and $X_n$ designs for which the column space of $X_{n+1}$ restricted to the first $n$ rows is that of $X_n$. Let $Q_n$ be any mixture of consistent Gaussian laws of $R_n$ with positive-definite covariance, and $E_n$ as in \eqref{eq:E}. For every $\theta\in\Theta_0$ and $c$, if $y\sim\mathcal{N}(X c,\Sigma_\theta)$ then $\Prob_\theta(\exists n: E_n\ge 1/\alpha)\le\alpha$.
+Let $\{\Sigma_\theta(n)\}_{\theta\in\Theta_0}$ be any collection of positive-definite covariance matrices, consistent in $n$ (each $\Sigma_\theta(n)$ is the leading block of $\Sigma_\theta(n+1)$), and $X_n$ designs for which the column space of $X_{n+1}$ restricted to the first $n$ rows is that of $X_n$. Let $Q_n$ be any mixture of consistent angular Gaussian laws of $u_n$, and let $E_n$ be $Q_n(u_n)/\sup_{\theta\in\Theta_0}p_\theta(u_n)$. For every $\theta\in\Theta_0$, every $c$ and every $\kappa^2>0$, if $y\sim\mathcal{N}(Xc,\kappa^2\Sigma_\theta)$ then $\Prob(\exists n: E_n\ge 1/\alpha)\le\alpha$. The same holds with the Gaussian laws of $R_n$ in place of $u_n$, a null class in which $\kappa^2$ is a parameter of $\Theta_0$, and the supremum taken over it (the profile-scale variant).
 \end{theorem}
 
 \begin{corollary}
 Theorem \ref{thm:validity} covers the random-walk level of \eqref{eq:null}, a first-order autoregressive level with unknown correlation, a random slope (integrated random walk), and any finite or countable union of such classes.
 \end{corollary}
 
-The proof (Appendix \ref{app:proof}) shows that $\Lambda_n = Q_n/P_\theta$ is a likelihood-ratio martingale and that $E_n\le\Lambda_n$ because the supremum is at least $P_\theta$; Ville's inequality then gives the claim. The step that is not in the cited arguments is the first: the family of residual laws is consistent and the residual $\sigma$-fields are nested for a correlated null with nuisance parameters in the covariance, which is why the restricted likelihood, and not the likelihood, is the object. Nothing depends on how $Q_n$ is mixed, so the construction is a template. The grid for $\mathcal{R}_0$ can be replaced by the continuum with the supremum in \eqref{eq:E}; validity holds for any set and the only requirement is that the supremum be attained or approximated from above by a measurable function.
+The proof (Appendix \ref{app:proof}) shows that $\Lambda_n = Q_n/p_\theta$ is a likelihood-ratio martingale on the nested $\sigma$-fields generated by $u_n$ and that $E_n\le\Lambda_n$ because the supremum is at least $p_\theta$; Ville's inequality then gives the claim. The point that needs care is that $u_n$ is a function of $u_{n+1}$, which holds because normalizing cancels the scale, so that the direction of a coordinate projection is a function of the direction of the full vector. Nothing depends on how $Q_n$ is mixed, so the construction is a template. The profile-scale variant, which estimates $\kappa^2$ by its restricted maximum-likelihood value in the denominator and mixes over four values of it in the numerator, is also valid and is the one we used in an earlier analysis; the exact-scale version has fewer mixture components, no profiling, and more power (Section \ref{sec:simulation}).
 
-\subsection{The price of robustness}
+\subsection{Cost decomposition}
 
 \begin{proposition}[decomposition]
 \label{prop:cost}
-For every component $c$ with nuisance setting $g\in\Theta_0$,
+For every component $c$ with roughness $r_g\in\Theta_0$,
 \begin{equation}
-\log E_n \ \ge\ \underbrace{\log w_c}_{\text{mixture}} + \underbrace{\log \Lambda_{c,n}}_{\text{known-}\theta\text{ LR}} - \underbrace{\Delta_n}_{\text{supremum}}, \qquad \Delta_n = \log \sup_{\theta \in \Theta_0} P_\theta(R_n) - \log P_{g}(R_n) \ \ge 0,
+\log E_n \ \ge\ \underbrace{\log w_c}_{\text{mixture}} + \underbrace{\log \Lambda_{c,n}}_{\text{known-}r\text{ LR}} - \underbrace{\Delta_n}_{\text{supremum}}, \qquad \Delta_n = \log \max_{r \in \mathcal{R}_0} p_r(u_n) - \log p_{r_g}(u_n) \ \ge 0,
 \label{eq:oracle}
 \end{equation}
-where $\Lambda_{c,n} = Q_c/P_g$ is the likelihood ratio of a user who knows the nuisance setting $g$ and the component.
+where $\Lambda_{c,n} = q_c/p_{r_g}$ is the likelihood ratio of a user who knows the roughness and the component.
 \end{proposition}
 
-The inequality is an identity-level bound and is loose in two ways. The mixture costs $\log(1/w_c)$, which is about 9 nats here. The supremum costs $\Delta_n$, which under the null at $g$ is a likelihood-ratio statistic for two parameters and is $O_P(1)$ for interior $g$; under an alternative the null fit can absorb signal, and $\Delta_n$ is not controlled by the inequality. Its size is therefore measured, not bounded. The first term of the known-$\theta$ benchmark grows linearly in information: for a simple alternative with slope change $\delta$ at wave $k$, $\E\log\Lambda = \tfrac12\delta^2 b_k(\Sigma)$ with $b_k(\Sigma) = z_k^\top P\, z_k$, which is what roughness destroys. The information is a scale, not a detection threshold, and we calibrate detection by simulation rather than by a formula.
+The mixture costs $\log(1/w_c)$, 7.6 nats here. The supremum costs $\Delta_n$, which under the null at $r_g$ is a likelihood-ratio statistic for one parameter and is $O_P(1)$; under an alternative the null fit can absorb signal, and $\Delta_n$ is measured and not bounded (Section \ref{sec:simulation}).
+
+\subsection{An information ceiling}
+\label{sec:ceiling}
+
+How much of the loss is due to the construction, and how much is due to the null class? The answer does not depend on any particular e-process.
+
+\begin{theorem}[ceiling]
+\label{thm:ceiling}
+Fix $n$, a null class $\{P_\theta\}_{\theta\in\Theta_0}$ of laws of the data and an alternative $Q$, and let $K = \inf_{\theta\in\Theta_0}\mathrm{KL}(Q\,\|\,P_\theta)$.
+\begin{enumerate}
+\item[(i)] If $E\ge0$ satisfies $\E_\theta E \le 1$ for all $\theta \in \Theta_0$, then $\E_Q\log E \le K$.
+\item[(ii)] If $A$ is an event with $P_\theta(A)\le\alpha$ for all $\theta\in\Theta_0$, then $Q(A) \le \beta^*(K,\alpha) = \max\{\beta : \mathrm{kl}(\beta\,\|\,\alpha) \le K\}$, with $\mathrm{kl}$ the binary relative entropy.
+\item[(iii)] Let the null class be $\mathcal{N}(0,\kappa^2 M\Sigma_r M^\top)$ on the residual space, $\kappa^2>0$, $r\in\mathcal{R}_0$, and $Q = \mathcal{N}(\delta Mz,\kappa_g^2M\Sigma_{r_g}M^\top)$. Then
+\[
+K = \min_{r\in\mathcal{R}_0}\ \tfrac12\Big[\nu\log\frac{c_r}{\nu} + \log|M\Sigma_rM^\top| - \log|\kappa_g^2M\Sigma_{r_g}M^\top|\Big],\quad c_r = \mathrm{tr}\big((M\Sigma_rM^\top)^{+}\kappa_g^2M\Sigma_{r_g}M^\top\big)+\delta^2z^\top P_rz,
+\]
+and $K \le \tfrac12\nu\log(1+\delta^2 b_{g}/\nu) \le \tfrac12\delta^2 b_g$, $b_g = z^\top P_{r_g}z/\kappa_g^2$.
+\end{enumerate}
+Both bounds hold for the monitor $\{E_n\}$ at any horizon, since $\{\exists n\le n_{\max}: E_n\ge1/\alpha\}$ is an event of probability at most $\alpha$ under every $P_\theta$, and for the scale-exact monitor, whose data are a function of the full data and whose divergence is therefore no larger.
+\end{theorem}
+
+Part (iii) shows what the null class does: the roughness (and the scale) can absorb part of the signal, so that $K$ is strictly smaller than the information $\tfrac12\delta^2b_g$ that a user who knew the null would have. The ceiling is on the design alone and does not depend on the construction: it applies to every valid monitor, including those that are tuned to the alternative. We use it in two ways. In Section \ref{sec:simulation} it is compared with the growth of the log e-value that the universal e-process achieves. In Section \ref{sec:application} it gives a lower bound on the minimum detectable change.
 
 \section{Simulation}
 \label{sec:simulation}
 
-All simulations use the dates and published standard errors of the 54 legacy-wording BTOS waves, a linear mean of slope 0.12 points per wave, level $\alpha = 0.05$ (threshold 20 for a single process) and $n_{\max} = 54$.
+All simulations use the dates and published standard errors of the 54 legacy-wording BTOS waves, a linear mean of slope 0.12 points per wave, level $\alpha = 0.05$ (threshold 20 for a single process), $n_{\max}=54$ and the exact-scale e-process unless stated.
 
-\paragraph{Validity.} The probability that the universal e-process ever reaches 20 is 0.000 for independent errors, 0.000 for standard errors 1.5 times the published ones, and 0.000, 0.001 and 0.000 for random-walk levels with $p=0.03$, 0.06 and 0.2 per wave (1,000 replications each), against 1.00 for the independence-based monitor at $p=0.06$. For autoregressive levels with correlation 0.9 and 0.98, which lie outside the random-walk class, the universal e-process is also never above the threshold, and enlarging the class with an autoregressive-level setting changes the power at $p=0.06$, slope 0.4 from 0.41 to 0.39 with no loss of validity. These probabilities are far below $\alpha$: the construction is conservative, and Table \ref{tab:power} shows the price.
+\paragraph{Validity.} The probability that the e-process ever reaches 20 is 0.000 for independent errors, 0.000 for standard errors 1.5 times the published ones, and 0.002, 0.008 and 0.003 for random-walk levels with $p=0.03$, 0.06 and 0.2 per wave (600 replications each), against 1.00 for the independence-based monitor at $p=0.06$. For autoregressive levels with correlation 0.9 and 0.98, which lie outside the random-walk class, the profile-scale version was also never above the threshold, and enlarging its class with an autoregressive-level setting changed the power at $p=0.06$, slope 0.4 from 0.41 to 0.39. The realized probabilities are far below $\alpha$: the construction is conservative.
+
+\paragraph{Power.} Table \ref{tab:exactpower} compares the exact-scale and profile-scale versions. The exact-scale version has uniformly higher power in the cases that matter: at $p=0.06$ a slope change of 0.4 points per wave is detected in 70 percent of replications against 43 percent, and a level shift of 2 points in 88 against 76 percent. Without roughness both detect a slope change of 0.2 in nearly all replications; with $p=0.06$ the same change is detected in 7 and 1 percent. Roughness removes most of the power of any monitor, which Section \ref{sec:application} quantifies by the ceiling.
 
 \begin{table}[t]
 \centering\small
-\caption{Probability that the universal e-process declares by the last wave when the slope changes by $\delta$ points per wave, or the level shifts by $\delta$ points, at wave 25 of 54, by roughness $p$ (variance of the level disturbance per wave; the published sampling variance is about 0.02). 500 replications.}
-\label{tab:power}
-\begin{tabular}{lccc|ccc}
-\toprule
-& \multicolumn{3}{c|}{Slope change (points per wave)} & \multicolumn{3}{c}{Level shift (points)} \\
-$p$ & 0.1 & 0.2 & 0.4 & 0.5 & 1 & 2 \\
-\midrule
-0 & 0.13 & 0.97 & 1.00 & 0.10 & 0.96 & 1.00 \\
-0.03 & 0.00 & 0.05 & 0.82 & 0.00 & 0.08 & 0.98 \\
-0.06 & 0.00 & 0.01 & 0.39 & 0.00 & 0.02 & 0.78 \\
-\bottomrule
-\end{tabular}
+\caption{Probability of declaring by the last wave when the slope changes by $\delta$ points per wave, or the level shifts by $\delta$ points, at wave 25 of 54, for roughness $p$ (variance of the level disturbance per wave; the published sampling variance is about 0.02). 300 replications.}
+\label{tab:exactpower}
+\input{tab_exactpower}
 \end{table}
 
-\paragraph{Power.} Without roughness a slope change of 0.2 points per wave, nearly twice the typical growth, is detected in 97 percent of replications; with $p=0.06$ the same change is detected in 1 percent, and detection needs a change of 0.4 (39 percent) or more (Table \ref{tab:power}, Figure \ref{fig:power}).
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.95\textwidth]{fig_power.pdf}
-\caption{Power of the universal e-process for a slope change (left) and a level shift (right) at wave 25 of 54, by roughness $p$.}
-\label{fig:power}
-\end{figure}
-
-\paragraph{Where the cost comes from.} Table \ref{tab:oracle} separates the three terms of \eqref{eq:oracle}. The known-$\theta$ benchmark, which knows the nuisance setting, the family, the size and the wave, detects a slope change of 0.4 at $p=0.06$ in 99 percent of replications. Adding the supremum over the null parameters, for a single component, reduces this to 87 percent. The mixture over about 8,300 components reduces it to 40 percent. At smaller changes the supremum also costs a great deal (0.40 to 0.10 at slope 0.2), and the mixture takes the rest. The robustness is not mainly paid for by the supremum: it is paid for by the breadth of the alternatives.
+\paragraph{Where the cost comes from.} Table \ref{tab:oracle} separates the terms of \eqref{eq:oracle}. A user who knows the roughness, the family, the size and the wave detects a slope change of 0.4 at $p=0.06$ in 99.8 percent of replications. Adding the supremum over the null roughness, for a single component, reduces this to 98 percent. The mixture over about 2,100 components reduces it to 70 percent. With exact scale invariance the supremum is nearly free; the cost is the mixture, the breadth of the alternatives. At the smaller changes the supremum matters more (0.50 to 0.35 for a slope change of 0.2), and the mixture takes most of the rest.
 
 \begin{table}[t]
 \centering\small
-\caption{Detection probability by the last wave, at level 0.05, for the known-$\theta$ likelihood ratio, a single component with the supremum denominator, and the full universal e-process (400 replications, change at wave 25).}
+\caption{Probability of declaring by the last wave at level 0.05 for the known-roughness likelihood ratio, a single component with the supremum denominator, and the full universal e-process (400 replications, change at wave 25).}
 \label{tab:oracle}
 \input{tab_oracle}
 \end{table}
 
-\paragraph{Comparison with a calibrated test.} A user who knew the null class could instead calibrate a likelihood-ratio monitor by simulation. We took the maximum over waves, families and change waves of the generalized likelihood ratio, with maximum-likelihood nuisance parameters, and set the threshold at the 95 percent quantile of its null distribution at the least favourable roughness. Table \ref{tab:glr} shows that this calibrated monitor is no more powerful than the universal e-process in the cases that matter (0.23 against 0.39 for slope 0.4 at $p=0.06$; 0.70 against 0.78 for a level shift of 2), and is more powerful only where neither detects. The e-process buys exact anytime validity with no calibration and costs nothing in power relative to the calibrated alternative in this design.
+\paragraph{Comparison with a calibrated test.} A user who knew the null class could calibrate a likelihood-ratio monitor by simulation. We took the maximum over waves, families and change waves of the generalized likelihood ratio with maximum-likelihood nuisance parameters, and set the threshold at the 95 percent quantile of its null distribution at the least favorable roughness. Table \ref{tab:glr} shows that this calibrated monitor is no more powerful than the profile-scale e-process in the cases that matter and is clearly less powerful than the exact-scale version (0.23 against 0.70 for slope 0.4 at $p=0.06$; 0.70 against 0.88 for a level shift of 2). The e-process gives anytime validity with no calibration.
 
 \begin{table}[t]
 \centering\small
-\caption{Detection probability of the calibrated generalized likelihood-ratio monitor and of the universal e-process (400 replications).}
+\caption{Probability of declaring for the calibrated generalized likelihood-ratio monitor and for the two e-processes (300--400 replications; independent replications, so differences of 0.05 are within noise).}
 \label{tab:glr}
 \input{tab_glr}
+\end{table}
+
+\paragraph{Growth against the ceiling.} Table \ref{tab:growth} compares the mean log e-value at the last wave with the ceiling $K$ of Theorem \ref{thm:ceiling}, for alternatives placed at wave 25 of the fitted 56-wave BTOS design (400 replications). The ceiling holds in every case, as it must. The gap grows from about 4 nats at the smallest changes to 9 at the largest, and is of the order of the log-weight of the mixture, 7.6 nats, plus the cost of the supremum. The universal e-process therefore loses to the best possible monitor a quantity that is a constant in $n$, the price of not knowing the alternative, and not a loss of rate.
+
+\begin{table}[t]
+\centering\small
+\caption{Mean log e-value at wave 56 of the exact-scale e-process against the ceiling $K$ of Theorem \ref{thm:ceiling}, on the fitted BTOS design with change at wave 25 (nats).}
+\label{tab:growth}
+\input{tab_growth}
 \end{table}
 
 \section{Application: business use of artificial intelligence}
@@ -195,7 +213,7 @@ $p$ & 0.1 & 0.2 & 0.4 & 0.5 & 1 & 2 \\
 
 \paragraph{Data.} The BTOS is the Census Bureau's biweekly survey of about 1.2 million employer businesses \citep{censusmethod2025}. We use the 56 national waves on current use of artificial intelligence from 24 September 2023 to 14 December 2025 \citep{bonney2024}: 54 with the legacy wording and two with the wording introduced on 17 November 2025, which has its own level. The estimate rises from 3.7 to 10.0 percent under the legacy wording; the published standard errors have median 0.15.
 
-\paragraph{Roughness and model choice.} Maximizing the restricted likelihood over \eqref{eq:null} gives $\hat p = 0.058$ points$^2$ per wave (95 percent profile interval 0.018 to 0.46) and $\hat\kappa^2 = 1.28$; the level disturbance has standard deviation 0.24 points per wave against a sampling standard deviation of 0.15. Setting $r=0$ lowers the restricted log-likelihood by 39.8, a likelihood-ratio statistic of 79.6; because $r=0$ is on the boundary, the reference distribution is the mixture $\tfrac12\chi^2_0+\tfrac12\chi^2_1$ \citep{self1987} and the evidence is overwhelming. Table \ref{tab:models} compares models by AIC. A straight line with a random-walk level is best; adding curvature does not improve it, and independent noise is far worse even with a quadratic mean. The data therefore support roughness and do not additionally support curvature.
+\paragraph{Roughness and model choice.} Maximizing the restricted likelihood over \eqref{eq:null} gives $\hat p = 0.058$ points$^2$ per wave (95 percent profile interval 0.018 to 0.46) and $\hat\kappa^2 = 1.28$; the level disturbance has standard deviation 0.24 points per wave against a sampling standard deviation of 0.15. Setting $r=0$ lowers the restricted log-likelihood by 39.8, a likelihood-ratio statistic of 79.6; because $r=0$ is on the boundary, the reference distribution is the mixture $\tfrac12\chi^2_0+\tfrac12\chi^2_1$ \citep{self1987} and the evidence is overwhelming. Table \ref{tab:models} compares models by AIC. A straight line with a random-walk level is best; adding curvature does not improve it, and independent noise is far worse even with a quadratic mean.
 
 \begin{table}[t]
 \centering\small
@@ -204,60 +222,71 @@ $p$ & 0.1 & 0.2 & 0.4 & 0.5 & 1 & 2 \\
 \input{tab_models}
 \end{table}
 
-\paragraph{What an independence-based monitor would say.} The monitor of Section \ref{sec:failure}, restarted after each declaration, declares twice on the BTOS series, on 10 March 2024 (deceleration) and 6 April 2025 (acceleration). In 400 series simulated from the fitted null (straight line, estimated roughness and scale, BTOS dates and standard errors) it declares at least once in 100 percent and at least twice in 98 percent, 3.1 times on average. The two declarations are what the fitted null produces; they are not evidence of a change in growth.
+\paragraph{What an independence-based monitor would say.} The monitor of Section \ref{sec:failure}, restarted after each declaration, declares twice on the BTOS series, on 10 March 2024 (deceleration) and 6 April 2025 (acceleration). In 400 series simulated from the fitted null (straight line, estimated roughness and scale, BTOS dates and standard errors) it declares at least once in 100 percent and at least twice in 98 percent, 3.1 times on average. The two declarations are what the fitted null produces.
 
-\paragraph{The universal e-process.} Applied to the 56 waves, the universal e-process peaks at $\log E = 0.39$ ($E=1.5$) on 9 February 2025 against a threshold of $\log 20 = 3.0$ (Figure \ref{fig:btos}). By family, slope alternatives peak at $-1.03$ and level alternatives at $1.07$, belonging to the one-wave fall of 10 March 2024. The result is not sensitive to the prior (Table \ref{tab:app}). In the seven employment-size classes the roughness estimates range from 0.06 to 0.94 and no class exceeds $\log E=-0.6$; the average of the seven e-processes, valid under any dependence, peaks at $-0.95$. In a second series, the share of firms planning to use artificial intelligence, the roughness is $\hat p = 0.080$ (likelihood-ratio statistic 104.7) and the universal e-process peaks at $-0.97$.
+\paragraph{The universal e-process.} Applied to the 56 waves, the exact-scale e-process peaks at $\log E = 2.88$ ($E = 17.8$) on 27 July 2025, against a threshold of $\log 20 = 3.00$ (Figure \ref{fig:btos}); it does not declare. The evidence comes from the level family ($\log E = 3.56$ on its own, with the slope family at $-0.08$); the combined e-process, which weights the two families equally, pays $\log 2$ for the choice. We do not interpret it as an event. Table \ref{tab:app} shows that the conclusion is sensitive to the design of the mixture: restricting the nuisance mixture to rough settings or widening the prior scales brings $\log E$ to 3.30 and 2.99, and level alternatives alone give 3.56. These variants were run after the main analysis and we do not take them as detections; they show that the main result is a near miss that depends on the dilution of the mixture, not a clear absence of evidence. The profile-scale version of the e-process, which we applied first, peaks at 0.39. The seven employment-size classes (maximum log e-value from $-0.14$ to $0.08$ each) and the series on planned use (0.22) show no evidence. The exact-scale e-process was developed after the profile-scale analysis, with the same grids and prior scales; the main analysis of this paper is the exact-scale one because it is the better procedure in simulation, and the sequence is disclosed here.
 
-\paragraph{A positive control.} The method must be able to detect a real discontinuity. When the change of questionnaire wording on 17 November 2025 is treated as ordinary data, with no regime level, the universal e-process reaches $\log E = 17.2$ ($E \approx 2\times10^{7}$) on 30 November 2025. The monitor is therefore not insensitive; it simply does not declare changes that a rough level explains.
+\paragraph{A positive control.} The method must be able to detect a real discontinuity. When the change of questionnaire wording on 17 November 2025 is treated as ordinary data, with no regime level, the exact-scale e-process reaches $\log E = 19.2$ ($E \approx 2\times10^{8}$) and the profile-scale one $17.2$. The monitor is therefore not insensitive; it does not declare changes that a rough level explains.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.78\textwidth]{fig_btos.pdf}
-\caption{Top: national share of businesses using artificial intelligence with 95 percent intervals, the fitted linear trend and the fitted trend plus rough level. Bottom: log E-value of the universal e-process, for all alternatives and by family, against the threshold $\log 20$.}
+\caption{Top: national share of businesses using artificial intelligence with 95 percent intervals, the fitted linear trend and the fitted trend plus rough level. Bottom: log E-value of the profile-scale universal e-process, for all alternatives and by family, against the threshold $\log 20$.}
 \label{fig:btos}
 \end{figure}
 
 \begin{table}[t]
 \centering\small
-\caption{Maximum log E-value of the universal e-process on the BTOS national series under variants of the prior (threshold $\log 20 = 3.00$).}
+\caption{Maximum log e-value on the BTOS national series under variants of the mixture (threshold $\log 20 = 3.00$). Variants other than the default were run after seeing the default.}
 \label{tab:app}
-\begin{tabular}{lc}
+\begin{tabular}{lcc}
 \toprule
-Variant & Maximum log E \\
+Variant & Exact scale & Profile scale \\
 \midrule
-Default & 0.39 \\
-Wider prior scales on $\delta$ & 0.10 \\
-Nuisance mixture restricted to rough settings ($r \ge 2\times$ sampling variance) & 1.17 \\
-Scale fixed at the published value & 1.25 \\
-Slope alternatives only & $-1.03$ \\
-Level alternatives only & 1.07 \\
-Legacy-wording waves only & 0.43 \\
+Default & 2.88 & 0.39 \\
+Wider prior scales on $\delta$ & 2.99 & 0.10 \\
+Nuisance mixture restricted to rough settings & 3.30 & 1.17 \\
+Slope alternatives only & $-0.08$ & $-1.03$ \\
+Level alternatives only & 3.56 & 1.07 \\
+Legacy-wording waves only & 2.92 & 0.43 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{What the series could have revealed.} We inject a change at wave 25 into series simulated from the fitted null on the full 56-wave design and record how often the universal e-process crosses 20 (300 replications per size; Figure \ref{fig:mdc}). A slope change is detected with probability 50 percent at 0.43 points per wave and 80 percent at 0.51; a level shift at 1.75 and 2.12 points. The information scale of Proposition \ref{prop:cost}, $b_k\approx 205$ for a slope change (computed at $\kappa^2=1$; about 160 on the fitted scale), gives $\sqrt{2\cdot 13/b_k}$ of 0.36 to 0.40, which is within 20 percent of the simulated threshold and shows that the information scale is a guide and not a substitute for the calibration. Without roughness the information is 170 times larger. The largest change in the series, the one-wave fall of 1.1 points in March 2024, is below the minimum detectable level shift.
+\paragraph{What the series could have revealed.} We inject a change at wave 25 into series simulated from the fitted null on the full 56-wave design and record how often the e-process crosses 20 (300 replications per size), and compare with the ceiling of Theorem \ref{thm:ceiling} for the same alternative (Figure \ref{fig:mdc}). A slope change is detected with probability 50 percent at 0.35 points per wave and 80 percent at 0.44, and a level shift at 1.61 and 1.93 points (profile scale: 0.43, 0.51, 1.75 and 2.12). The ceiling gives a lower bound that holds for any valid monitor: a slope change cannot be detected with probability 50 percent below 0.09 points per wave and with probability 80 percent below 0.14, and a level shift below 0.40 and 0.63 points. The average growth is 0.12 points per wave, so even a monitor that knew the alternative would have only an even chance of detecting a change in growth equal to the growth itself. The e-process is a factor of about four above the ceiling, most of which is the price of not knowing the wave, the size and the roughness, the log-weight of the mixture in Table \ref{tab:growth}.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.95\textwidth]{fig_mdc.pdf}
-\caption{Probability that the universal e-process crosses 20 when a change is injected at wave 25 into series simulated from the fitted null on the BTOS design, for a slope change (left) and a level shift (right); the dotted lines mark 50 and 80 percent.}
+\caption{Probability of crossing 20 when a change is injected at wave 25 into series simulated from the fitted null on the BTOS design, for a slope change (left) and a level shift (right): exact-scale e-process, profile-scale e-process, and the ceiling for any valid monitor.}
 \label{fig:mdc}
 \end{figure}
 
 \section{Discussion}
 
-\paragraph{What the paper shows.} Anytime-valid monitoring of a trend is only as good as its null. If the latent level is rough, independence-based e-processes are not slightly anticonservative; they are wrong, by a margin that grows with the series, and the failure begins at roughness well below the sampling variance. A null class that includes the roughness restores validity at a price that we decompose and calibrate. In the application, the price is that the series cannot reveal a change smaller than three to four times its average growth, so the absence of declarations is not evidence of constant growth.
+\paragraph{What the paper shows.} Anytime-valid monitoring of a trend is only as good as its null. If the latent level is rough, independence-based e-processes are not slightly anticonservative; they are wrong, by a margin that grows with the series, and the failure begins at roughness well below the sampling variance. A null class that includes the roughness restores validity. Exact scale invariance makes the construction more powerful than profiling the scale, and the information ceiling shows that the loss to the null class is large and unavoidable (no monitor can detect a change in growth smaller than the growth in half of the cases) while the loss to the construction is a constant of order $\log(1/w)$. On the BTOS the result is a near miss, an e-value of 18 against a threshold of 20, which the paper reports as that.
 
-\paragraph{Limitations.} The null class is Gaussian; the validity theorem covers any consistent parametric Gaussian covariance class but not non-Gaussian errors, and the failure theorem is for the benchmark monitor in an equally spaced design with a random-walk level. The universal construction is conservative, with realized false-declaration probabilities below 0.001; the calibrated alternative of Table \ref{tab:glr} does not do better in this design but need not be exactly comparable elsewhere. The alternative mixture, the horizon and the grids are fixed in advance, and the application is retrospective. The standard errors enter as fixed weights, panel rotation is not modelled, and the roughness is not identified against correlated sampling error. We analyze two series from one survey; the roughness estimates in the size classes range from 0.06 to 0.94, and a replication in another survey is needed before the magnitude of the roughness is taken as general. We do not claim optimality: the cost decomposition measures the loss but no lower bound on it is proved. A tolerance for small departures from linearity, an exact-scale invariant version and a regret analysis are open.
+\paragraph{Limitations.} The null class is Gaussian; the validity theorem covers any consistent parametric Gaussian covariance class but not non-Gaussian errors, and the failure theorem is for the benchmark monitor in an equally spaced design with a random-walk level. The e-process is conservative, with realized false-declaration probabilities below 0.01. The alternative mixture, the horizon and the grids are fixed in advance, and the application is retrospective; the exact-scale version was developed after the profile-scale analysis, and the sensitivity variants were run after the main analysis. The ceiling is for a known alternative and is loose for power (it ignores the cost of not knowing the alternative, which is the gap we measure), so it bounds detectability from below and not the e-process from above. The standard errors enter as fixed weights, panel rotation is not modeled, and the roughness is not identified against correlated sampling error. We analyze two series from one survey; the roughness estimates in the size classes range from 0.06 to 0.94, and a replication in another survey is needed before the magnitude of the roughness is taken as general. We prove no matching upper bound on the loss of the e-process; the gap in Table \ref{tab:growth} is measured. A tolerance for small departures from linearity and a regret analysis are open.
 
-\paragraph{Implications.} A declaration from a monitor that assumes independent noise should be checked by estimating the roughness and simulating the monitor under the fitted null, as we did. For agencies, the information $b_k$ and the spike-in curve are design quantities that say how large a change a series of a given length, precision and roughness can reveal, and they can be reported with the series.
+\paragraph{Implications.} A declaration from a monitor that assumes independent noise should be checked by estimating the roughness and simulating the monitor under the fitted null. For agencies, the information ceiling and the spike-in curve are design quantities that say how large a change a series of a given length, precision and roughness can reveal, and they can be reported with the series.
 
-\section*{Declaration of Generative AI Use}
+\section*{Acknowledgments}
+None.
+
+\section*{Disclosure statement}
+The author reports there are no competing interests to declare.
+
+\section*{Funding}
+The author received no financial support for the research, authorship or publication of this article.
+
+\section*{Declaration of generative AI use}
 Generative AI tools were used to support the writing of code and to polish the language of the manuscript. The research idea, the methods and algorithms, and the interpretation of the results are the author's own. The author reviewed and edited all AI-assisted output and takes full responsibility for the content of the work.
 
-\section*{Data and code availability}
-All data are public statistics of the U.S.\ Census Bureau (Business Trends and Outlook Survey). The code reproduces every number, table and figure; the martingale and Ville-inequality steps of the validity proof are formalized in Lean~4 in the replication package.
+\section*{Data availability statement}
+All data are public statistics of the U.S.\ Census Bureau (Business Trends and Outlook Survey). The analysis data set, the code that reproduces every number, table and figure, and a Lean~4 formalization of the martingale and Ville-inequality steps of the validity proof accompany the submission.
+
+\section*{CRediT authorship contribution statement}
+Quang-Vinh Dang: conceptualization, methodology, formal analysis, software, data curation, visualization, writing (original draft, review and editing).
 
 \bibliographystyle{chicago}
 \bibliography{refs}
@@ -266,9 +295,13 @@ All data are public statistics of the U.S.\ Census Bureau (Business Trends and O
 \section{Proofs}
 \label{app:proof}
 
-\paragraph{Proof of Theorem \ref{thm:validity}.} Fix $\theta\in\Theta_0$ and $c$. Let $\mathcal{G}_n$ be the $\sigma$-field generated by $R_n$. Since the column space of $X_{n+1}$ restricted to the first $n$ rows is that of $X_n$ (a column for a new regime is zero on earlier rows), $R_n$ is a function of $R_{n+1}$ and $(\mathcal{G}_n)$ is a filtration. Under $\mathcal{N}(Xc,\Sigma_\theta)$ the law of $R_n$ is $\mathcal{N}(0,M_n\Sigma_\theta M_n^\top)$ on the residual space, with density $P_\theta(R_n)$ with respect to a common reference measure. Each component of $Q_n$ is a Gaussian density with positive-definite covariance, so $Q_n\ll P_\theta$ on $\mathcal{G}_n$ and $\Lambda_n=Q_n(R_n)/P_\theta(R_n)$. By consistency of the covariances and of the alternative columns, $Q_{n+1}$ restricted to $\mathcal{G}_n$ is $Q_n$, and likewise $P_\theta$; hence $\Lambda_n$ is the Radon--Nikodym derivative of $Q$ with respect to $P_\theta$ on $\mathcal{G}_n$, a nonnegative $P_\theta$-martingale with $\Lambda_0=1$. Since $\theta\in\Theta_0$, $\sup_{\theta'}P_{\theta'}(R_n)\ge P_\theta(R_n)$, so $0\le E_n\le\Lambda_n$. By Ville's inequality $\Prob_\theta(\sup_n\Lambda_n\ge1/\alpha)\le\alpha$, and $\{\exists n:E_n\ge1/\alpha\}$ is contained in that event. The Corollary follows because each listed covariance family is consistent in $n$, and a union of classes is a larger $\Theta_0$. $\square$
+\paragraph{Proof of Theorem \ref{thm:validity}.} Fix $\theta\in\Theta_0$, $c$ and $\kappa^2$. Let $\mathcal{G}_n=\sigma(u_n)$ with $u_n=R_n/|R_n|$ and $R_n=M_ny_{1:n}$. Since the column space of $X_{n+1}$ restricted to the first $n$ rows is that of $X_n$ (a column for a new regime is zero on earlier rows), $R_n=A_nR_{n+1}$ for a linear map $A_n$, hence $u_n=A_nu_{n+1}/|A_nu_{n+1}|$ is a function of $u_{n+1}$ and $(\mathcal{G}_n)$ is a filtration. The law of $R_n$ is $\mathcal{N}(0,\kappa^2M_n\Sigma_\theta M_n^\top)$, so $u_n$ has the angular central Gaussian law with shape $\Sigma_R=M_n\Sigma_\theta M_n^\top$, whose density with respect to the uniform measure on the sphere of the residual space is $C_\nu\,|\Sigma_{R}|^{-1/2}(u^\top\Sigma_R^{+}u)^{-\nu/2}$; it does not depend on $\kappa^2$ or $c$. With $R=|R|u$, $u^\top\Sigma_R^+u\,|R|^2=y^\top P_\theta y$ and the pseudo-determinant of $\Sigma_R$ is $|\Sigma_\theta||X_n^\top\Sigma_\theta^{-1}X_n|/|X_n^\top X_n|$, which gives the expression of Section \ref{sec:method} up to factors common to all $\theta$ and components. The laws of $u_n$ under a consistent family of Gaussians are consistent in $n$ (the law of $u_n$ is the image of the law of $u_{n+1}$), so $\Lambda_n=Q_n(u_n)/p_\theta(u_n)$ is the Radon--Nikodym derivative of $Q$ with respect to $P_\theta$ on $\mathcal{G}_n$ and a nonnegative $P_\theta$-martingale with $\Lambda_0=1$; $Q_n\ll p_\theta$ because every angular central Gaussian with positive-definite shape has a strictly positive density. Since $\theta\in\Theta_0$, $\sup_{\theta'}p_{\theta'}(u_n)\ge p_\theta(u_n)$, so $0\le E_n\le\Lambda_n$. By Ville's inequality $\Prob(\sup_n\Lambda_n\ge1/\alpha)\le\alpha$, which contains $\{\exists n:E_n\ge1/\alpha\}$. For the profile-scale variant replace $u_n$ by $R_n$ and $\Theta_0$ by the set of pairs $(\kappa^2,r)$. The Corollary follows because each listed covariance family is consistent in $n$, and a union of classes is a larger $\Theta_0$. $\square$
 
-\paragraph{Proof of Proposition \ref{prop:cost}.} $E_n = Q_n/\sup_\theta P_\theta \ge w_cQ_c/\sup_\theta P_\theta = w_c\,\Lambda_{c,n}\,P_g/\sup_\theta P_\theta$. Take logarithms. $\square$
+\paragraph{Derivation of \eqref{eq:bf}.} Integrating $\delta\sim\mathcal{N}(0,\kappa^2\tau^2)$ out of $\mathcal{N}(\delta M z,\kappa^2M\Sigma_{r_g}M^\top)$ gives $\mathcal{N}(0,\kappa^2 M(\Sigma_{r_g}+\tau^2zz^\top)M^\top)$. By the matrix determinant lemma the pseudo-determinant is multiplied by $1+\tau^2b$, with $b=z^\top P_{r_g}z$, and by the Sherman--Morrison formula the quadratic form is $y^\top P_{r_g}y-\tau^2a^2/(1+\tau^2b)$ with $a=z^\top P_{r_g}y$. Inserting both into the angular density gives \eqref{eq:bf}. $\square$
+
+\paragraph{Proof of Proposition \ref{prop:cost}.} $E_n = Q_n/\max_rp_r \ge w_cq_c/\max_rp_r = w_c\,\Lambda_{c,n}\,p_{r_g}/\max_rp_r$. Take logarithms. $\square$
+
+\paragraph{Proof of Theorem \ref{thm:ceiling}.} (i) For any $\theta$ with $\mathrm{KL}(Q\|P_\theta)<\infty$ and $E\ge0$, $\E_Q\log E=\mathrm{KL}(Q\|P_\theta)+\E_Q\log(E\,dP_\theta/dQ)\le\mathrm{KL}(Q\|P_\theta)+\log\E_\theta E\le\mathrm{KL}(Q\|P_\theta)$ by Jensen's inequality and $\E_\theta E\le1$; take the infimum over $\theta$. (ii) The data-processing inequality for the indicator of $A$ gives $\mathrm{kl}(Q(A)\|P_\theta(A))\le\mathrm{KL}(Q\|P_\theta)$. If $Q(A)>\alpha\ge P_\theta(A)$ then $\mathrm{kl}(Q(A)\|x)$ is decreasing in $x\le Q(A)$, so $\mathrm{kl}(Q(A)\|\alpha)\le\mathrm{kl}(Q(A)\|P_\theta(A))\le\mathrm{KL}(Q\|P_\theta)$ for every $\theta$; hence $\mathrm{kl}(Q(A)\|\alpha)\le K$ and $Q(A)\le\beta^*$. (iii) On the $\nu$-dimensional residual space, $\mathrm{KL}(\mathcal{N}(m,S_g)\|\mathcal{N}(0,\kappa^2S_r))=\tfrac12[\mathrm{tr}(S_r^{-1}S_g)/\kappa^2+m^\top S_r^{-1}m/\kappa^2-\nu+\nu\log\kappa^2+\log|S_r|-\log|S_g|]$ with $m=\delta Mz$, $S_g=\kappa_g^2M\Sigma_{r_g}M^\top$ and $S_r=M\Sigma_rM^\top$. Minimizing over $\kappa^2$ gives $\kappa^2=c_r/\nu$ with $c_r=\mathrm{tr}(S_r^{-1}S_g)+m^\top S_r^{-1}m$ and the value in the statement, where $m^\top S_r^{-1}m=\delta^2z^\top P_rz$. At $r=r_g$, $c_r=\nu\kappa_g^2+\delta^2z^\top P_{r_g}z$ and the value is $\tfrac12\nu\log(1+\delta^2b_g/\nu)\le\tfrac12\delta^2b_g$. For the scale-exact monitor the data are the direction $u_n$, a function of $y$, and the data-processing inequality gives $\mathrm{KL}(Q_{u}\|P_{\theta,u})\le\mathrm{KL}(Q\|P_\theta)$, so that (i) and (ii) hold with $K$ computed on the full data. $\square$
 
 \paragraph{Proof of Theorem \ref{thm:failure}.} Write $S_i=\sum_{j\ge i}a_j$. Since $a\perp(1,j)$ the linear trend and $L_1$ do not enter $a^\top y=a^\top L+a^\top e$, and with $L_j=L_1+\sum_{i=2}^j\eta_i$ we have $a^\top L=\sum_{i=2}^nS_i\eta_i$. By independence, $\mathrm{Var}(a^\top y)=p\sum_{i\ge2}S_i^2+\sigma^2\|a\|^2$, and $\sum_{i\ge2}S_i^2=a^\top Wa$ up to terms that vanish when $a\perp1$. Hence $\mathrm{Var}(Z_a)=1+(p/\sigma^2)\,a^\top Wa/\|a\|^2$. Since $\psi$ is piecewise continuous, the residual $a_j=\tilde\psi(j/n)+O(n^{-1})$ uniformly off the $O(1)$ discontinuities, so $S_i=n\,\Psi(i/n)+O(1)$ and $\sum_iS_i^2=n^3\int_0^1\Psi^2\,(1+o(1))$, while $\|a\|^2=n\int_0^1\tilde\psi^2\,(1+o(1))$. This gives the stated form. The constant $c(\psi)$ is positive: $\int\tilde\psi^2>0$ because $\psi$ is not linear, and $\Psi\equiv0$ would force $\tilde\psi=0$ almost everywhere. For $\psi=x^2$, $\tilde\psi=(x-\tfrac12)^2-\tfrac1{12}$, $\int\tilde\psi^2=1/180$ and $\Psi(x)=\int_x^1\tilde\psi$ has $\int\Psi^2=1/7560$, so $c=180/7560=1/42$.
 
@@ -276,6 +309,6 @@ For the e-process, $Z_a$ is Gaussian with mean zero and variance $1+\lambda_n\to
 
 \paragraph{Sketch for Proposition \ref{prop:scale}.} Let $\mathrm{RSS}^{(0)}_n$ be the residual sum of squares of $y$ on $(1,j)$ and $\rho_n=(a^\top y)^2/(\|a\|^2\,\mathrm{RSS}^{(0)}_n)$ with $a$ the curvature contrast. The profile likelihood ratio of the quadratic model against the linear one is $(1-\rho_n)^{-\nu/2}$ with $\nu=n-2$, and a Laplace approximation of the mixture over the curvature gives $\log E^\sigma_n=\tfrac\nu2\log\{1/(1-\rho_n)\}+O_P(\log n)$. By Donsker's theorem, $(np)^{-1/2}L_{\lfloor nx\rfloor}$ converges to a Brownian motion, and $\rho_n$ converges in distribution to the squared cosine between the detrended Brownian path and the quadratic, which is positive almost surely. On the event $\rho_n>\varepsilon$, whose probability tends to $\Prob(\rho_\infty>\varepsilon)$, $\log E^\sigma_n$ is of order $n$; letting $\varepsilon\to0$ gives the claim. We present this as a sketch; the full argument requires uniform control of the Laplace remainder.
 
-\paragraph{Computation.} The universal e-process is computed on the log scale. For each wave $n$ the matrices $P_{1,r}=\Sigma_1^{-1}-\Sigma_1^{-1}X(X^\top\Sigma_1^{-1}X)^{-1}X^\top\Sigma_1^{-1}$, $\Sigma_1=D+rW$, are precomputed for the roughness grid, and the quadratic forms $y^\top P_{1,r}y$ and $z^\top P_{1,r}y$ give $E_n$ in closed form.
+\paragraph{Computation.} The e-process is computed on the log scale. For each wave $n$ the matrices $P_{r}=\Sigma_r^{-1}-\Sigma_r^{-1}X(X^\top\Sigma_r^{-1}X)^{-1}X^\top\Sigma_r^{-1}$, $\Sigma_r=D+rW$, are precomputed for the roughness grid, and the quadratic forms $y^\top P_{r}y$, $z^\top P_{r}y$ and $z^\top P_rz$ give $E_n$ in closed form from \eqref{eq:bf}.
 
 \end{document}

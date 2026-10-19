@@ -34,3 +34,8 @@ Check scope, fees, length limits on each guide for authors BEFORE committing (FR
 - Prior versions (JET-M desk reject, TF&SC reject) differ substantially in method (iid-increment e-process, since found invalid); this one uses the invariant curvature e-process.
 - Outcome: DESK REJECTED 19 Oct 2026 (JOS-2026-0197, Dr. Suad Elezovic, as signed): treated as an application of existing e-process/sequential methodology rather than a sufficiently novel methodological contribution; concerns on the substantive treatment of the application, clarity, and technical development; declined without external review.
 - (superseded status) under review. Open items: page ranges for two Annals references; third internal review round not run.
+
+## 5. Sequential Analysis (Taylor & Francis) - READY TO SUBMIT, 21 Oct 2026
+- Version: manuscripts/robust (new methodology paper: failure theorem, scale-exact universal e-process, information ceiling, BTOS as example); package in submission/SequentialAnalysis_Taylor_Francis/ (files 1-5 and README with portal mapping).
+- Portal: https://rp.tandfonline.com/submission/create?journalCode=LSQA ; single anonymous review; no fees; unstructured abstract 195 words; 5 keywords; CRediT, disclosure, funding, generative AI and data availability statements included.
+- Status: not yet submitted. Manuscript ID / date / decision: to be added.
